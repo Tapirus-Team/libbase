@@ -17,7 +17,7 @@ target("libbase")
     add_files("src/*.cpp")
     del_files("src/main.cpp")
 
-target("unittest")
+target("libbase.test")
     set_kind("binary")
     add_deps("libbase")
     add_includedirs(path.join(os.scriptdir(), "/inc"))
