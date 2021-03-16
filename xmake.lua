@@ -1,6 +1,10 @@
+-- xmake
+
+--set_xmakever("2.1.0")
+add_rules("plugin.vsxmake.autoupdate")
+
 -- global
 
-add_rules("plugin.vsxmake.autoupdate")
 add_rules("mode.debug", "mode.release")
 set_warnings("allextra", "error")
 set_languages("c11", "cxx17")
