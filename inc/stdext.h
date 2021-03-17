@@ -5,6 +5,8 @@
 #pragma once
 #include <type_traits>
 #include <memory>
+#include <string>
+#include <filesystem>
 
 
 namespace base::stdext
@@ -120,4 +122,14 @@ namespace base::stdext
     {
         return static_cast<std::underlying_type_t<EnumT>>(e);
     }
+}
+
+namespace base::stdext::filesystem
+{
+    std::filesystem::path module_path(void* mod = nullptr);
+}
+
+namespace base::stdext
+{
+    namespace fs = filesystem;
 }
