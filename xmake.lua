@@ -5,10 +5,11 @@ add_rules("plugin.vsxmake.autoupdate")
 
 -- global
 
+set_project("libbase")
 add_rules("mode.debug", "mode.release")
 set_warnings("allextra", "error")
 set_languages("c11", "cxx17")
-add_includedirs(path.join(os.scriptdir(), "/third"))
+add_includedirs(os.scriptdir())
 
 -- target
 
@@ -20,7 +21,6 @@ target("libbase")
 target("libbase.test")
     set_kind("binary")
     add_deps("libbase")
-    add_includedirs(path.join(os.scriptdir(), "/inc"))
     add_files("src/main.cpp")
 
 --
