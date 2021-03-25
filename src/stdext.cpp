@@ -42,4 +42,20 @@ namespace base::stdext::filesystem
 
         return path;
     }
+
+    std::filesystem::path expand_path(const std::filesystem::path& unexpand)
+    {
+        std::wstring buf;
+
+        auto cch = ExpandEnvironmentStringsW(unexpand.c_str(), nullptr, 0);
+        if (cch == 0)
+        {
+            return unexpand;
+        }
+
+        buf.resize(cch);
+        ExpandEnvironmentStringsW(unexpand.c_str(), &buf[0], cch);
+
+        return buf;
+    }
 }
