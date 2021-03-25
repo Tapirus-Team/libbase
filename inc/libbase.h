@@ -6,4 +6,5 @@
 
 
 #include "stdext.h"
+#include "strings/strings.h"
 #include "memory/singleton.h"
