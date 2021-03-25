@@ -5,7 +5,7 @@
 #pragma once
 
 
-#include "stdext.h"
-#include "console.h"
-#include "strings/strings.h"
-#include "memory/singleton.h"
+namespace base::console
+{
+    void RedirectIOToConsole(_In_ short MaxConsoleLines);
+}
