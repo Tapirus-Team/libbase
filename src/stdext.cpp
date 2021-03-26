@@ -53,7 +53,7 @@ namespace base::stdext::filesystem
             return unexpand;
         }
 
-        buf.resize(cch);
+        buf.resize(cch - 1);
         ExpandEnvironmentStringsW(unexpand.c_str(), &buf[0], cch);
 
         return buf;
