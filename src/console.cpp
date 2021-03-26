@@ -11,8 +11,8 @@ namespace base::console
 {
     void RedirectIOToConsole(_In_ short MaxConsoleLines)
     {
-        int  hConHandle = 0;
-        long lStdHandle = 0;
+        int hConHandle = 0;
+        intptr_t lStdHandle = 0;
 
         FILE* fp = nullptr;
         CONSOLE_SCREEN_BUFFER_INFO coninfo{};
@@ -31,7 +31,7 @@ namespace base::console
 
         // redirect unbuffered STDOUT to the console
 
-        lStdHandle = (long)GetStdHandle(STD_OUTPUT_HANDLE);
+        lStdHandle = (intptr_t)GetStdHandle(STD_OUTPUT_HANDLE);
 
         hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
 
@@ -43,7 +43,7 @@ namespace base::console
 
         // redirect unbuffered STDIN to the console
 
-        lStdHandle = (long)GetStdHandle(STD_INPUT_HANDLE);
+        lStdHandle = (intptr_t)GetStdHandle(STD_INPUT_HANDLE);
 
         hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
 
@@ -55,7 +55,7 @@ namespace base::console
 
         // redirect unbuffered STDERR to the console
 
-        lStdHandle = (long)GetStdHandle(STD_ERROR_HANDLE);
+        lStdHandle = (intptr_t)GetStdHandle(STD_ERROR_HANDLE);
 
         hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
 
