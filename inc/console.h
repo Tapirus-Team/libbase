@@ -7,5 +7,6 @@
 
 namespace base::console
 {
+    void SetConsoleUTF8();
     void RedirectIOToConsole(_In_ short MaxConsoleLines);
 }

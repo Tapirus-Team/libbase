@@ -9,6 +9,26 @@
 
 namespace base::console
 {
+    void SetConsoleUTF8()
+    {
+        SetConsoleCP(65001);
+        SetConsoleOutputCP(65001);
+
+        if (auto Handle = GetStdHandle(STD_OUTPUT_HANDLE))
+        {
+            CONSOLE_FONT_INFOEX Font{ sizeof(CONSOLE_FONT_INFOEX) };
+
+            if (GetCurrentConsoleFontEx(Handle, FALSE, &Font))
+            {
+                Font.FontWeight = FW_NORMAL;
+                Font.FontFamily = FF_DONTCARE;
+                wcscpy_s(Font.FaceName, L"Lucida Console");
+
+                SetCurrentConsoleFontEx(Handle, FALSE, &Font);
+            }
+        }
+    }
+
     void RedirectIOToConsole(_In_ short MaxConsoleLines)
     {
         int hConHandle = 0;
