@@ -53,6 +53,11 @@ namespace base::console
 
         lStdHandle = (intptr_t)GetStdHandle(STD_OUTPUT_HANDLE);
 
+        if (lStdHandle == -1 /*INVALID_HANDLE_VALUE*/)
+        {
+            return;
+        }
+
         hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
 
         fp = _fdopen(hConHandle, "w");
@@ -86,6 +91,10 @@ namespace base::console
         setvbuf(stderr, NULL, _IONBF, 0);
 
         // make cout, wcout, cin, wcin, wcerr, cerr, wclog and clog
+
+        freopen("CON", "w", stdout);
+        freopen("CON", "r", stdin);
+        freopen("CON", "w", stderr);
 
         // point to console as well
 
