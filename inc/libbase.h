@@ -10,3 +10,4 @@
 #include "console.h"
 #include "strings/strings.h"
 #include "memory/singleton.h"
+#include "process/info.h"
