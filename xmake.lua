@@ -11,6 +11,10 @@ set_warnings("allextra", "error")
 set_languages("c11", "cxx17")
 add_includedirs(os.scriptdir())
 
+if is_mode("debug") then
+    add_defines("_DEBUG", "DEBUG")
+end
+
 -- target
 
 target("libbase")
