@@ -7,6 +7,7 @@
 
 // Global define
 
+#define NOMINMAX
 #define WIN32_LEAN_AND_MEAN
 
 // System Header
@@ -16,6 +17,8 @@
 
 // C/C++ Header
 
+#include <cwctype>
+#include <algorithm>
 
 // 3rdParty Header
 

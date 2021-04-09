@@ -5,7 +5,7 @@
 #include "../universal.inl"
 
 
-namespace base
+namespace base::process
 {
     // Reference: https://github.com/chromium/chromium/blob/master/base/process/process_info_win.cc#L30
     IntegrityLevel GetProcessIntegrityLevel(_In_ HANDLE process)

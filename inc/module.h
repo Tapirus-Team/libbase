@@ -5,7 +5,7 @@
 #pragma once
 
 
-namespace base
+namespace base::modules
 {
     void* dlopen(
         _In_ const char* name,
@@ -20,4 +20,11 @@ namespace base
         _In_ void* handle,
         _In_ const char* symbol
     );
+}
+
+namespace base
+{
+    using modules::dlopen;
+    using modules::dlclose;
+    using modules::dlsym;
 }

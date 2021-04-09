@@ -8,6 +8,8 @@
 #include "stdext.h"
 #include "module.h"
 #include "console.h"
+#include "version.h"
 #include "strings/strings.h"
+#include "strings/string_util.h"
 #include "memory/singleton.h"
 #include "process/info.h"

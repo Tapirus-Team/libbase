@@ -5,7 +5,7 @@
 #include "universal.inl"
 
 
-namespace base
+namespace base::modules
 {
     void* dlopen(
         _In_ const char* name,
