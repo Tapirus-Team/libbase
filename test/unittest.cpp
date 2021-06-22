@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 #include <Windows.h>
-#include <inc/libbase.h>
+#include <include/libbase.h>
 
 
 int main(int /*argc*/, char* /*argv*/[])

@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 #include <cwctype>
-#include <charconv>
 #include <algorithm>
 
 
@@ -33,26 +32,26 @@ namespace base::strings
     template<typename T>
     void to_lower(std::basic_string<T>& str)
     {
-        std::transform(str.begin(), str.end(), str.begin(), typename tolower<T>);
+        std::transform(str.begin(), str.end(), str.begin(), &tolower<T>);
     }
 
     template<typename T>
     void to_upper(std::basic_string<T>& str)
     {
-        std::transform(str.begin(), str.end(), str.begin(), typename toupper<T>);
+        std::transform(str.begin(), str.end(), str.begin(), &toupper<T>);
     }
 
     template<typename T>
     std::basic_string<T> to_lower_copy(std::basic_string<T> str)
     {
-        std::transform(str.begin(), str.end(), str.begin(), typename tolower<T>);
+        std::transform(str.begin(), str.end(), str.begin(), &tolower<T>);
         return std::move(str);
     }
 
     template<typename T>
     std::basic_string<T> to_upper_copy(std::basic_string<T> str)
     {
-        std::transform(str.begin(), str.end(), str.begin(), typename toupper<T>);
+        std::transform(str.begin(), str.end(), str.begin(), &toupper<T>);
         return std::move(str);
     }
 

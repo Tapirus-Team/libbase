@@ -9,6 +9,7 @@
 
 #define NOMINMAX
 #define WIN32_LEAN_AND_MEAN
+#define UMDF_USING_NTSTATUS
 
 // System Header
 
@@ -30,4 +31,4 @@ EXTERN_C IMAGE_DOS_HEADER __ImageBase;
 
 // Self
 
-#include "inc/libbase.h"
+#include "include/libbase.h"

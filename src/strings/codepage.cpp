@@ -38,7 +38,7 @@ namespace base::strings
         int mb_length = static_cast<int>(mb.length());
         // Compute the length of the buffer.
         int charcount = MultiByteToWideChar(code_page, 0,
-            mb.data(), mb_length, NULL, 0);
+            mb.data(), mb_length, nullptr, 0);
         if (charcount == 0)
             return std::wstring();
 
@@ -58,14 +58,14 @@ namespace base::strings
 
         // Compute the length of the buffer we'll need.
         int charcount = WideCharToMultiByte(code_page, 0, wide.data(), wide_length,
-            NULL, 0, NULL, NULL);
+            nullptr, 0, nullptr, nullptr);
         if (charcount == 0)
             return std::string();
 
         std::string mb;
         mb.resize(charcount);
         WideCharToMultiByte(code_page, 0, wide.data(), wide_length,
-            &mb[0], charcount, NULL, NULL);
+            &mb[0], charcount, nullptr, nullptr);
 
         return std::move(mb);
     }

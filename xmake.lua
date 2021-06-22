@@ -1,6 +1,6 @@
 -- xmake
 
---set_xmakever("2.1.0")
+set_xmakever("2.5.4")
 add_rules("plugin.vsxmake.autoupdate")
 
 -- global
@@ -16,12 +16,11 @@ add_includedirs(os.scriptdir())
 target("libbase")
     set_kind("static")
     add_files("src/**.cpp")
-    del_files("src/main.cpp")
 
 target("libbase.test")
     set_kind("binary")
     add_deps("libbase")
-    add_files("src/main.cpp")
+    add_files("test/main.cpp")
 
 --
 -- If you want to known more usage about xmake, please see https://xmake.io
