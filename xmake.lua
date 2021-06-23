@@ -7,6 +7,7 @@ add_rules("plugin.vsxmake.autoupdate")
 
 set_project("libbase")
 add_rules("mode.debug", "mode.release")
+set_runtime("MD")
 set_warnings("allextra", "error")
 set_languages("c11", "cxx17")
 add_includedirs(os.scriptdir())
