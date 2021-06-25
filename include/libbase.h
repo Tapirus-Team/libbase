@@ -4,6 +4,8 @@
 
 #pragma once
 
+EXTERN_C IMAGE_DOS_HEADER __ImageBase;
+#define HINST_THISCOMPONENT ((HINSTANCE)&__ImageBase)
 
 #include "stdext.h"
 #include "module.h"
