@@ -7,7 +7,7 @@ add_rules("plugin.vsxmake.autoupdate")
 
 set_project("libbase")
 add_rules("mode.debug", "mode.release")
-set_runtime("MD")
+set_runtimes("MD")
 set_warnings("allextra", "error")
 set_languages("c11", "cxx17")
 add_includedirs(os.scriptdir())
@@ -21,7 +21,7 @@ target("libbase")
 target("libbase.test")
     set_kind("binary")
     add_deps("libbase")
-    add_files("test/main.cpp")
+    add_files("test/unittest.cpp")
 
 --
 -- If you want to known more usage about xmake, please see https://xmake.io
