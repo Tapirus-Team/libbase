@@ -22,6 +22,7 @@
     <ClCompile Include="..\src\console.cpp" />
     <ClCompile Include="..\src\files\version_info.cpp" />
     <ClCompile Include="..\src\libbase.cpp" />
+    <ClCompile Include="..\src\memory\shared_memory.cpp" />
     <ClCompile Include="..\src\memory\singleton.cpp" />
     <ClCompile Include="..\src\module.cpp" />
     <ClCompile Include="..\src\process\info.cpp" />

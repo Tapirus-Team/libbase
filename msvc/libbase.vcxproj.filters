@@ -55,6 +55,9 @@
     <ClCompile Include="..\src\process\launch.cpp">
       <Filter>src\process</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\memory\shared_memory.cpp">
+      <Filter>src\memory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\src\universal.inl">
