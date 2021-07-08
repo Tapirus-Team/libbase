@@ -17,6 +17,9 @@
     <Filter Include="src\strings">
       <UniqueIdentifier>{cc31c953-c4b1-4b74-9da4-42627920d31c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\notifications">
+      <UniqueIdentifier>{fbc99c13-f843-4ee0-85fb-f849b0c9b759}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\console.cpp">
@@ -56,6 +59,12 @@
       <Filter>src\process</Filter>
     </ClCompile>
     <ClCompile Include="..\src\memory\shared_memory.cpp">
+      <Filter>src\memory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\notifications\module.cpp">
+      <Filter>src\notifications</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\memory\search.cpp">
       <Filter>src\memory</Filter>
     </ClCompile>
   </ItemGroup>

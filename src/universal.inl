@@ -12,6 +12,7 @@
 
 // System Header
 #include <third/MINT/MINT.h>
+#include <intrin.h>
 #include <strsafe.h>
 
 // C/C++ Header

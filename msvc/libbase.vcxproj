@@ -22,9 +22,11 @@
     <ClCompile Include="..\src\console.cpp" />
     <ClCompile Include="..\src\files\version_info.cpp" />
     <ClCompile Include="..\src\libbase.cpp" />
+    <ClCompile Include="..\src\memory\search.cpp" />
     <ClCompile Include="..\src\memory\shared_memory.cpp" />
     <ClCompile Include="..\src\memory\singleton.cpp" />
     <ClCompile Include="..\src\module.cpp" />
+    <ClCompile Include="..\src\notifications\module.cpp" />
     <ClCompile Include="..\src\process\info.cpp" />
     <ClCompile Include="..\src\process\launch.cpp" />
     <ClCompile Include="..\src\registry.cpp" />
@@ -112,6 +114,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ObjectFileName>$(IntDir)anyname\%(RelativeDir)%(FileName).obj</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -129,6 +132,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ObjectFileName>$(IntDir)anyname\%(RelativeDir)%(FileName).obj</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -146,6 +150,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ObjectFileName>$(IntDir)anyname\%(RelativeDir)%(FileName).obj</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -163,6 +168,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)..\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ObjectFileName>$(IntDir)anyname\%(RelativeDir)%(FileName).obj</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>
