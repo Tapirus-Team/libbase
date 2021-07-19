@@ -17,6 +17,7 @@ EXTERN_C IMAGE_DOS_HEADER __ImageBase;
 #include "memory/singleton.h"
 #include "memory/shared_memory.h"
 #include "process/info.h"
+#include "process/launch.h"
 #include "files/version_info.h"
 #include "registry.h"
 #include "notifications/module.h"
