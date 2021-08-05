@@ -4,170 +4,156 @@
 
 #pragma once
 
+#include <mutex>
+#include <chrono>
+
 
 namespace base::memory
 {
-    template<typename T, size_t _SIZE = sizeof(T)>
+    // refs: https://chromium.googlesource.com/chromium/chromium/+/refs/heads/main/base/shared_memory.h
+
+    // Platform abstraction for shared memory.  Provides a C++ wrapper
+    // around the OS primitive for a memory mapped file.
     class SharedMemory
     {
-        HANDLE _Section = nullptr;
-        void*  _Address = nullptr;
-
     public:
+        SharedMemory() = default;
+        SharedMemory(SharedMemory&) = delete;
+        SharedMemory& operator=(const SharedMemory&) = delete;
+
+        explicit SharedMemory(const std::string_view name);
+
+        // Create a new SharedMemory object from an existing, open
+        // shared memory file.
+        SharedMemory(HANDLE handle, bool read_only);
+
+        // Create a new SharedMemory object from an existing, open
+        // shared memory file that was created by a remote process and not shared
+        // to the current process.
+        SharedMemory(HANDLE handle, bool read_only, HANDLE process);
+
+        // Closes any open files.
         ~SharedMemory();
 
-        HRESULT CreateSharedMemory(
-            _In_ const char* name,
-            _In_ ACCESS_MASK desired = FILE_MAP_READ | FILE_MAP_WRITE,
-            _In_opt_ LPSECURITY_ATTRIBUTES attributes = nullptr
-        );
+        // Creates a shared memory object as described by the options struct.
+        // Returns true on success and false on failure.
+        bool Create(const std::string_view name, bool open_existing, uint32_t size);
 
-        HRESULT OpenSharedMemory(
-            _In_ const char* name,
-            _In_ ACCESS_MASK desired = FILE_MAP_READ | FILE_MAP_WRITE
-        );
+        // Creates and maps an anonymous shared memory segment of size size.
+        // Returns true on success and false on failure.
+        bool CreateAndMapAnonymous(uint32_t size);
 
-        VOID CloseSharedMemory();
+        // Creates an anonymous shared memory segment of size size.
+        // Returns true on success and false on failure.
+        bool CreateAnonymous(uint32_t size) {
+            return Create({}, false, size);
+        }
 
-        bool IsMapping() const noexcept;
+        // Creates or opens a shared memory segment based on a name.
+        // If open_existing is true, and the shared memory already exists,
+        // opens the existing shared memory and ignores the size parameter.
+        // If open_existing is false, shared memory must not exist.
+        // size is the size of the block to be created.
+        // Returns true on success, false on failure.
+        bool CreateNamed(const std::string_view name, bool open_existing, uint32_t size) {
+            return Create(name, size, open_existing);
+        }
+
+        // Opens a shared memory segment based on a name.
+        // If read_only is true, opens for read-only access.
+        // Returns true on success, false on failure.
+        bool Open(const std::string_view name, bool read_only);
+
+        // Maps the shared memory into the caller's address space.
+        // Returns true on success, false otherwise.  The memory address
+        // is accessed via the memory() accessor.
+        bool Map(uint32_t bytes);
+
+        // Unmaps the shared memory from the caller's address space.
+        // Returns true if successful; returns false on error or if the
+        // memory is not mapped.
+        bool Unmap();
+
+        // Get the size of the shared memory backing file.
+        uint32_t Size() const;
+
+        // Gets a pointer to the opened memory space if it has been
+        // Mapped via Map().  Returns NULL if it is not mapped.
+        void* Data() const;
+
+        // Returns the underlying OS handle for this segment.
+        // Use of this handle for anything other than an opaque
+        // identifier is not portable.
+        HANDLE Handle() const;
+
+        // Closes the open shared memory segment.
+        // It is safe to call Close repeatedly.
+        void Close();
+
+        // Shares the shared memory to another process.  Attempts
+        // to create a platform-specific new_handle which can be
+        // used in a remote process to access the shared memory
+        // file.  new_handle is an ouput parameter to receive
+        // the handle for use in the remote process.
+        // Returns true on success, false otherwise.
+        bool ShareToProcess(HANDLE process, HANDLE* new_handle) {
+            return ShareToProcessCommon(process, new_handle, false);
+        }
+
+        // Logically equivalent to:
+        //   bool ok = ShareToProcess(process, new_handle);
+        //   Close();
+        //   return ok;
+        // Note that the memory is unmapped by calling this method, regardless of the
+        // return value.
+        bool GiveToProcess(HANDLE process, HANDLE* new_handle) {
+            return ShareToProcessCommon(process, new_handle, true);
+        }
+
+        // Locks the shared memory.
+        //
+        // WARNING: on POSIX the memory locking primitive only works across
+        // processes, not across threads.  The Lock method is not currently
+        // used in inner loops, so we protect against multiple threads in a
+        // critical section using a class global lock.
+        void Lock() {
+            Lock(INFINITE, nullptr);
+        }
+
+        // A Lock() implementation with a timeout that also allows setting
+        // security attributes on the mutex. sec_attr may be NULL.
+        // Returns true if the Lock() has been acquired, false if the timeout was
+        // reached.
+        bool Lock(uint32_t timeout_ms, SECURITY_ATTRIBUTES* sec_attr);
+
+        // Releases the shared memory lock.
+        void Unlock();
 
     public:
-        T* Get() const noexcept
-        {
-            return static_cast<T*>(_Address);
+        // std::unique_lock traits
+        void lock();
+        void unlock();
+
+        template <class Rep, class Period>
+        bool try_lock_for(const std::chrono::duration<Rep, Period>& rel_time) {
+            return try_lock_until(std::chrono::abs(rel_time));
         }
 
-        operator T* () const noexcept
-        {
-            return Get();
+        template <class Clock, class Duration>
+        bool try_lock_until(const std::chrono::time_point<Clock, Duration>& abs_time) {
+            return Lock(std::chrono::time_point_cast<std::chrono::milliseconds>(abs_time), nullptr);
         }
 
-        T* operator->() const throw()
-        {
-            return Get();
-        }
+    private:
+        bool ShareToProcessCommon(HANDLE process, HANDLE* new_handle, bool close_self);
 
-        T& GetRef() const throw()
-        {
-            return *Get();
-        }
+        std::string _Name;
+        HANDLE      _Section  = nullptr;
+        void*       _Memory   = nullptr;
+        bool        _ReadOnly = false;
+
+        HANDLE      _Lock     = nullptr;
     };
-}
-
-namespace base::memory
-{
-    template<typename T, size_t _SIZE /*= sizeof(T)*/>
-    base::memory::SharedMemory<T, _SIZE>::~SharedMemory()
-    {
-        CloseSharedMemory();
-    }
-
-    template<typename T, size_t _SIZE /*= sizeof(T)*/>
-    HRESULT SharedMemory<T, _SIZE>::CreateSharedMemory(
-        _In_ const char* name,
-        _In_ ACCESS_MASK desired,
-        _In_opt_ LPSECURITY_ATTRIBUTES attributes)
-    {
-        HRESULT Result = S_OK;
-
-        do
-        {
-            DWORD Protect = 0;
-            if ((desired & FILE_MAP_ALL_ACCESS) == FILE_MAP_ALL_ACCESS)
-            {
-                desired = desired & (~SECTION_MAP_EXECUTE);
-                Protect = PAGE_READWRITE;
-            }
-            else
-            {
-                if (desired == FILE_MAP_READ)
-                {
-                    Protect = PAGE_READONLY;
-                }
-                if (desired & FILE_MAP_WRITE)
-                {
-                    desired = desired | FILE_MAP_READ;
-                    Protect = PAGE_READWRITE;
-                }
-            }
-
-            LARGE_INTEGER MaximumSize = { _SIZE };
-            HANDLE Section = CreateFileMappingA(INVALID_HANDLE_VALUE, attributes, Protect,
-                MaximumSize.HighPart, MaximumSize.LowPart, name);
-            if (Section == nullptr)
-            {
-                Result = HRESULT_FROM_WIN32(GetLastError());
-                break;
-            }
-
-            void* Address = MapViewOfFile(Section, desired, 0, 0, _SIZE);
-            if (Address == nullptr)
-            {
-                Result = HRESULT_FROM_WIN32(GetLastError());
-
-                CloseHandle(Section);
-                break;
-            }
-
-            _Section = Section;
-            _Address = Address;
-
-        } while (false);
-
-        return Result;
-    }
-
-    template<typename T, size_t _SIZE /*= sizeof(T)*/>
-    HRESULT base::memory::SharedMemory<T, _SIZE>::OpenSharedMemory(
-        _In_ const char* name,
-        _In_ ACCESS_MASK desired)
-    {
-        HRESULT Result = S_OK;
-
-        do
-        {
-            HANDLE Section = OpenFileMappingA(desired, FALSE, name);
-            if (Section == nullptr)
-            {
-                Result = HRESULT_FROM_WIN32(GetLastError());
-                break;
-            }
-
-            void* Address = MapViewOfFile(Section, desired, 0, 0, _SIZE);
-            if (Address == nullptr)
-            {
-                Result = HRESULT_FROM_WIN32(GetLastError());
-
-                CloseHandle(Section);
-                break;
-            }
-
-            _Section = Section;
-            _Address = Address;
-
-        } while (false);
-
-        return Result;
-    }
-
-    template<typename T, size_t _SIZE /*= sizeof(T)*/>
-    VOID base::memory::SharedMemory<T, _SIZE>::CloseSharedMemory()
-    {
-        if (_Section)
-        {
-            UnmapViewOfFile(_Address);
-            CloseHandle(_Section);
-
-            _Section = nullptr;
-            _Address = nullptr;
-        }
-    }
-
-    template<typename T, size_t _SIZE /*= sizeof(T)*/>
-    bool base::memory::SharedMemory<T, _SIZE>::IsMapping() const noexcept
-    {
-        return !!_Section;
-    }
 }
 
 namespace base

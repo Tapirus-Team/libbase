@@ -8,7 +8,7 @@
 namespace base::codepage
 {
     // Do not assert in this function since it is used by the asssertion code!
-    std::wstring mbstowcs(_In_ const std::string_view& mb, _In_opt_ uint32_t code_page)
+    std::wstring mbstowcs(_In_ const std::string_view mb, _In_opt_ uint32_t code_page)
     {
         if (mb.empty())
             return std::wstring();
@@ -28,7 +28,7 @@ namespace base::codepage
     }
 
     // Do not assert in this function since it is used by the asssertion code!
-    std::string wcstombs(_In_ const std::wstring_view& wide, _In_opt_ uint32_t code_page)
+    std::string wcstombs(_In_ const std::wstring_view wide, _In_opt_ uint32_t code_page)
     {
         int wide_length = static_cast<int>(wide.length());
         if (wide_length == 0)
@@ -48,12 +48,12 @@ namespace base::codepage
         return std::move(mb);
     }
 
-    size_t mbslen(_In_ const std::string_view& mbs)
+    size_t mbslen(_In_ const std::string_view mbs)
     {
         return _mbstrnlen(mbs.data(), mbs.size());
     }
 
-    size_t wcslen(_In_ const std::wstring_view& wcs)
+    size_t wcslen(_In_ const std::wstring_view wcs)
     {
         return wcsnlen(wcs.data(), wcs.size());
     }

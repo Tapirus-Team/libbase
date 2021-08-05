@@ -11,11 +11,11 @@ namespace base::codepage
     // Converts between 8-bit and wide strings, using the given code page. The
     // code page identifier is one accepted by the Windows function
     // MultiByteToWideChar().
-    std::wstring mbstowcs(_In_ const std::string_view& mbs,  _In_opt_ uint32_t code_page = CP_UTF8);
-    std::string  wcstombs(_In_ const std::wstring_view& wcs, _In_opt_ uint32_t code_page = CP_UTF8);
+    std::wstring mbstowcs(_In_ const std::string_view  mbs, _In_opt_ uint32_t code_page = CP_UTF8);
+    std::string  wcstombs(_In_ const std::wstring_view wcs, _In_opt_ uint32_t code_page = CP_UTF8);
 
-    size_t mbslen(_In_ const std::string_view&  mbs);
-    size_t wcslen(_In_ const std::wstring_view& wcs);
+    size_t mbslen(_In_ const std::string_view  mbs);
+    size_t wcslen(_In_ const std::wstring_view wcs);
 }
 
 namespace base
