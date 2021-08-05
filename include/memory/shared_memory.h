@@ -169,3 +169,8 @@ namespace base::memory
         return !!_Section;
     }
 }
+
+namespace base
+{
+    using memory::SharedMemory;
+}

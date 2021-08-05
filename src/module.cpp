@@ -12,19 +12,20 @@ namespace base::modules
         _In_opt_ uint32_t mode
     )
     {
+        auto name_wcs  = mbstowcs(name);
         HMODULE handle = nullptr;
 
         // ref:x+1
-        if (GetModuleHandleExA(0, name, &handle))
+        if (GetModuleHandleExW(0, name_wcs.c_str(), &handle))
         {
             return handle;
         }
 
         // ref:0+1
-        if (LoadLibraryExA(name, nullptr, mode))
+        if (LoadLibraryExW(name_wcs.c_str(), nullptr, mode))
         {
             // ref:1+1
-            if (GetModuleHandleExA(0, name, &handle))
+            if (GetModuleHandleExW(0, name_wcs.c_str(), &handle))
             {
                 return handle;
             }

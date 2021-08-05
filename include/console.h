@@ -7,6 +7,18 @@
 
 namespace base::console
 {
-    void SetConsoleUTF8();
-    void RedirectIOToConsole(_In_ short MaxConsoleLines);
+    void SetConsoleCodePage(
+        _In_opt_ uint32_t    CodePage = CP_UTF8,
+        _In_opt_ const char* FontName = u8"Lucida Console"
+    );
+
+    void RedirectIOToConsole(
+        _In_opt_ short MaxConsoleLines = 5000
+    );
+}
+
+namespace base
+{
+    using console::SetConsoleCodePage;
+    using console::RedirectIOToConsole;
 }

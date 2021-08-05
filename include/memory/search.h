@@ -14,3 +14,8 @@ namespace base::memory
         _In_opt_ bool aOptimization = true
     );
 }
+
+namespace base
+{
+    using memory::MemorySearch;
+}

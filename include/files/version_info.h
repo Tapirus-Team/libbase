@@ -68,3 +68,8 @@ namespace base::files
             const std::filesystem::path& file_path);
     };
 }
+
+namespace base
+{
+    using files::FileVersionInfo;
+}

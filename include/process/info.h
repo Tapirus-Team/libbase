@@ -33,3 +33,11 @@ namespace base::process
         _In_ BOOL    enable      // to enable or disable privilege
     );
 }
+
+namespace base
+{
+    using process::IntegrityLevel;
+    using process::GetProcessIntegrityLevel;
+    using process::IsProcessElevated;
+    using process::SetProcessPrivilege;
+}

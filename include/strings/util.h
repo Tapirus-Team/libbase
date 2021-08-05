@@ -92,10 +92,8 @@ namespace base::strings
                     return tolower<T>(x) == tolower<T>(y);
                 });
         }
-        else
-        {
-            return source == search_for;
-        }
+
+        return source == search_for;
     }
 
     template<typename T>
@@ -113,10 +111,8 @@ namespace base::strings
                     return tolower<T>(x) == tolower<T>(y);
                 });
         }
-        else
-        {
-            return source == search_for;
-        }
+
+        return source == search_for;
     }
 
     template<typename T>
@@ -133,10 +129,8 @@ namespace base::strings
 
                 }) != str.end();
         }
-        else
-        {
-            return str.find(search_for) != std::basic_string_view<T>::npos;
-        }
+
+        return str.find(search_for) != std::basic_string_view<T>::npos;
     }
 
 }

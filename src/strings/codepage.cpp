@@ -5,32 +5,10 @@
 #include "../universal.inl"
 
 
-namespace base::strings
+namespace base::codepage
 {
     // Do not assert in this function since it is used by the asssertion code!
-    std::string SysWideToUTF8(const std::wstring_view& wide)
-    {
-        return SysWideToMultiByte(wide, CP_UTF8);
-    }
-
-    // Do not assert in this function since it is used by the asssertion code!
-    std::wstring SysUTF8ToWide(const std::string_view& utf8)
-    {
-        return SysMultiByteToWide(utf8, CP_UTF8);
-    }
-
-    std::string SysWideToNativeMB(const std::wstring_view& wide)
-    {
-        return SysWideToMultiByte(wide, CP_ACP);
-    }
-
-    std::wstring SysNativeMBToWide(const std::string_view& native_mb)
-    {
-        return SysMultiByteToWide(native_mb, CP_ACP);
-    }
-
-    // Do not assert in this function since it is used by the asssertion code!
-    std::wstring SysMultiByteToWide(const std::string_view& mb, uint32_t code_page)
+    std::wstring mbstowcs(_In_ const std::string_view& mb, _In_opt_ uint32_t code_page)
     {
         if (mb.empty())
             return std::wstring();
@@ -50,7 +28,7 @@ namespace base::strings
     }
 
     // Do not assert in this function since it is used by the asssertion code!
-    std::string SysWideToMultiByte(const std::wstring_view& wide, uint32_t code_page)
+    std::string wcstombs(_In_ const std::wstring_view& wide, _In_opt_ uint32_t code_page)
     {
         int wide_length = static_cast<int>(wide.length());
         if (wide_length == 0)
@@ -68,5 +46,15 @@ namespace base::strings
             &mb[0], charcount, nullptr, nullptr);
 
         return std::move(mb);
+    }
+
+    size_t mbslen(_In_ const std::string_view& mbs)
+    {
+        return _mbstrnlen(mbs.data(), mbs.size());
+    }
+
+    size_t wcslen(_In_ const std::wstring_view& wcs)
+    {
+        return wcsnlen(wcs.data(), wcs.size());
     }
 }

@@ -5,37 +5,41 @@
 #include "universal.inl"
 #include <io.h>
 #include <fcntl.h>
+#include <wchar.h>
 
 
 namespace base::console
 {
-    void SetConsoleUTF8()
+    void SetConsoleCodePage(_In_opt_ uint32_t CodePage, _In_opt_ const char* FontName)
     {
-        SetConsoleCP(65001);
-        SetConsoleOutputCP(65001);
-
-        if (auto Handle = GetStdHandle(STD_OUTPUT_HANDLE))
+        auto handle = GetStdHandle(STD_OUTPUT_HANDLE);
+        if (handle == INVALID_HANDLE_VALUE)
         {
-            if (Handle == INVALID_HANDLE_VALUE)
+            return;
+        }
+
+        SetConsoleCP(CodePage);
+        SetConsoleOutputCP(CodePage);
+
+        if (FontName)
+        {
+            CONSOLE_FONT_INFOEX font = { sizeof(CONSOLE_FONT_INFOEX) };
+
+            if (GetCurrentConsoleFontEx(handle, FALSE, &font))
             {
-                return;
-            }
+                auto state = std::mbstate_t();
 
-            CONSOLE_FONT_INFOEX Font{ sizeof(CONSOLE_FONT_INFOEX) };
+                font.FontWeight = FW_NORMAL;
+                font.FontFamily = FF_DONTCARE;
+                mbsrtowcs_s(nullptr, font.FaceName, _countof(font.FaceName), &FontName, _countof(font.FaceName), &state);
 
-            if (GetCurrentConsoleFontEx(Handle, FALSE, &Font))
-            {
-                Font.FontWeight = FW_NORMAL;
-                Font.FontFamily = FF_DONTCARE;
-                wcscpy_s(Font.FaceName, L"Lucida Console");
-
-                SetCurrentConsoleFontEx(Handle, FALSE, &Font);
+                SetCurrentConsoleFontEx(handle, FALSE, &font);
             }
         }
     }
 
     // Reference: https://github.com/chromium/chromium/blob/master/base/process/launch_win.cc#L138
-    void RedirectIOToConsole(_In_ short MaxConsoleLines)
+    void RedirectIOToConsole(_In_opt_ short MaxConsoleLines)
     {
         // Don't change anything if stdout or stderr already point to a
         // valid stream.

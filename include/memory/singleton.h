@@ -17,3 +17,8 @@ namespace base::memory
         }
     };
 }
+
+namespace base
+{
+    using memory::Singleton;
+}

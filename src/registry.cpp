@@ -24,21 +24,24 @@ namespace base
         }
 
         // Recursively deletes a key and all of its subkeys.
-        static HRESULT RegDelRecurse(_In_ HKEY root_key, _In_ const wchar_t* name, _In_ REGSAM access)
-        {// First, see if the key can be deleted without having to recurse.
-            LONG result = RegDeleteKeyExW(root_key, name, access, 0);
+        static HRESULT RegDelRecurse(_In_ HKEY root_key, _In_ const char* name, _In_ REGSAM access)
+        {
+            auto name_wcs = mbstowcs(name);
+
+            // First, see if the key can be deleted without having to recurse.
+            LONG result = RegDeleteKeyExW(root_key, name_wcs.c_str(), access, 0);
             if (result == ERROR_SUCCESS)
                 return S_OK;
 
             HKEY target_key = nullptr;
-            result = RegOpenKeyExW(root_key, name, 0, KEY_ENUMERATE_SUB_KEYS | access, &target_key);
+            result = RegOpenKeyExW(root_key, name_wcs.c_str(), 0, KEY_ENUMERATE_SUB_KEYS | access, &target_key);
 
             if (result == ERROR_FILE_NOT_FOUND)
                 return S_OK;
             if (result != ERROR_SUCCESS)
                 return HRESULT_FROM_WIN32(result);
 
-            std::wstring subkey_name(name);
+            auto subkey_name = name_wcs;
 
             // Check for an ending slash and add one if it is missing.
             if (!subkey_name.empty() && subkey_name.back() != '\\')
@@ -50,7 +53,7 @@ namespace base
             const DWORD  MaxKeyNameLength = MAX_PATH;
             const size_t base_key_length = subkey_name.length();
 
-            std::wstring key_name;            
+            std::wstring key_name;
             while (result == ERROR_SUCCESS)
             {
                 key_name.reserve(MaxKeyNameLength);
@@ -67,14 +70,14 @@ namespace base
                 subkey_name.resize(base_key_length);
                 subkey_name += key_name;
 
-                if (RegDelRecurse(root_key, subkey_name.c_str(), access) != ERROR_SUCCESS)
+                if (RegDelRecurse(root_key, wcstombs(subkey_name).c_str(), access) != ERROR_SUCCESS)
                     break;
             }
 
             RegCloseKey(target_key);
 
             // Try again to delete the key.
-            result = RegDeleteKeyExW(root_key, name, access, 0);
+            result = RegDeleteKeyExW(root_key, name_wcs.c_str(), access, 0);
 
             return HRESULT_FROM_WIN32(result);
         }
@@ -87,7 +90,7 @@ namespace base
 
     }
 
-    RegKey::RegKey(_In_ HKEY rootkey, _In_ const wchar_t* subkey, _In_ REGSAM access)
+    RegKey::RegKey(_In_ HKEY rootkey, _In_ const char* subkey, _In_ REGSAM access)
     {
         if (rootkey)
         {
@@ -124,12 +127,12 @@ namespace base
 
     HRESULT RegKey::Create(
         _In_ HKEY rootkey,
-        _In_ const wchar_t* subkey,
+        _In_ const char* subkey,
         _In_ REGSAM access,
         _Out_opt_ DWORD* disposition /*= nullptr */)
     {
         HKEY subhkey = nullptr;
-        LONG result  = RegCreateKeyExW(rootkey, subkey, 0, nullptr, REG_OPTION_NON_VOLATILE,
+        LONG result  = RegCreateKeyExW(rootkey, mbstowcs(subkey).c_str(), 0, nullptr, REG_OPTION_NON_VOLATILE,
                 access, nullptr, &subhkey, disposition);
         if (result == ERROR_SUCCESS)
         {
@@ -141,10 +144,10 @@ namespace base
         return HRESULT_FROM_WIN32(result);
     }
 
-    HRESULT RegKey::Open(_In_ HKEY rootkey, _In_ const wchar_t* subkey, _In_ REGSAM access)
+    HRESULT RegKey::Open(_In_ HKEY rootkey, _In_ const char* subkey, _In_ REGSAM access)
     {
         HKEY subhkey = nullptr;
-        LONG result  = RegOpenKeyExW(rootkey, subkey, 0, access, &subhkey);
+        LONG result  = RegOpenKeyExW(rootkey, mbstowcs(subkey).c_str(), 0, access, &subhkey);
         if (result == ERROR_SUCCESS) {
             Close();
             _Key = subhkey;
@@ -154,7 +157,7 @@ namespace base
         return HRESULT_FROM_WIN32(result);
     }
 
-    HRESULT RegKey::CreateKey(_In_ const wchar_t* subkey, _In_ REGSAM access)
+    HRESULT RegKey::CreateKey(_In_ const char* subkey, _In_ REGSAM access)
     { 
         // After the application has accessed an alternate registry view using one of
         // the [KEY_WOW64_32KEY / KEY_WOW64_64KEY] flags, all subsequent operations
@@ -167,7 +170,7 @@ namespace base
         }
 
         HKEY subhkey = nullptr;
-        LONG result  = RegCreateKeyExW(_Key, subkey, 0, nullptr, REG_OPTION_NON_VOLATILE,
+        LONG result  = RegCreateKeyExW(_Key, mbstowcs(subkey).c_str(), 0, nullptr, REG_OPTION_NON_VOLATILE,
             access, nullptr, &subhkey, nullptr);
         if (result == ERROR_SUCCESS)
         {
@@ -179,7 +182,7 @@ namespace base
         return HRESULT_FROM_WIN32(result);
     }
 
-    HRESULT RegKey::OpenKey(_In_ const wchar_t* subkey, _In_ REGSAM access)
+    HRESULT RegKey::OpenKey(_In_ const char* subkey, _In_ REGSAM access)
     {
         // After the application has accessed an alternate registry view using one of
         // the [KEY_WOW64_32KEY / KEY_WOW64_64KEY] flags, all subsequent operations
@@ -192,7 +195,7 @@ namespace base
         }
 
         HKEY subhkey = nullptr;
-        LONG result = RegOpenKeyExW(_Key, subkey, 0, access, &subhkey);
+        LONG result = RegOpenKeyExW(_Key, mbstowcs(subkey).c_str(), 0, access, &subhkey);
 
         // We have to close the current opened key before replacing it with the new
         // one.
@@ -233,9 +236,9 @@ namespace base
         return key;
     }
 
-    bool RegKey::HasValue(_In_ const wchar_t* value_name) const
+    bool RegKey::HasValue(_In_ const char* value_name) const
     {
-        return RegQueryValueExW(_Key, value_name, nullptr, nullptr, nullptr, nullptr)
+        return RegQueryValueExW(_Key, mbstowcs(value_name).c_str(), nullptr, nullptr, nullptr, nullptr)
             == ERROR_SUCCESS;
     }
 
@@ -265,13 +268,13 @@ namespace base
         return _Key != nullptr;
     }
 
-    HRESULT RegKey::DeleteKey(_In_ const wchar_t* name)
+    HRESULT RegKey::DeleteKey(_In_ const char* name)
     {
         HKEY subkey = nullptr;
 
         // Verify the key exists before attempting delete to replicate previous
         // behavior.
-        LONG result = RegOpenKeyExW(_Key, name, 0, READ_CONTROL | _Wow64Access, &subkey);
+        LONG result = RegOpenKeyExW(_Key, mbstowcs(name).c_str(), 0, READ_CONTROL | _Wow64Access, &subkey);
         if (result != ERROR_SUCCESS)
             return HRESULT_FROM_WIN32(result);
 
@@ -280,10 +283,12 @@ namespace base
         return RegDelRecurse(_Key, name, _Wow64Access);
     }
 
-    HRESULT RegKey::DeleteEmptyKey(_In_ const wchar_t* name)
+    HRESULT RegKey::DeleteEmptyKey(_In_ const char* name)
     {
+        auto name_wcs = mbstowcs(name);
+
         HKEY target_key = nullptr;
-        LONG result = RegOpenKeyExW(_Key, name, 0, KEY_READ | _Wow64Access, &target_key);
+        LONG result = RegOpenKeyExW(_Key, name_wcs.c_str(), 0, KEY_READ | _Wow64Access, &target_key);
 
         if (result != ERROR_SUCCESS)
             return HRESULT_FROM_WIN32(result);
@@ -298,17 +303,17 @@ namespace base
             return HRESULT_FROM_WIN32(result);
 
         if (count == 0)
-            return HRESULT_FROM_WIN32(RegDeleteKeyExW(_Key, name, _Wow64Access, 0));
+            return HRESULT_FROM_WIN32(RegDeleteKeyExW(_Key, name_wcs.c_str(), _Wow64Access, 0));
 
         return HRESULT_FROM_WIN32(ERROR_DIR_NOT_EMPTY);
     }
 
-    HRESULT RegKey::DeleteValue(_In_ const wchar_t* value_name)
+    HRESULT RegKey::DeleteValue(_In_ const char* value_name)
     {
-        return HRESULT_FROM_WIN32(RegDeleteValueW(_Key, value_name));
+        return HRESULT_FROM_WIN32(RegDeleteValueW(_Key, mbstowcs(value_name).c_str()));
     }
 
-    HRESULT RegKey::ReadValue(_In_opt_ const wchar_t* name, _Out_ DWORD* out_value) const
+    HRESULT RegKey::ReadValue(_In_opt_ const char* name, _Out_ DWORD* out_value) const
     {
         *out_value = 0ul;
 
@@ -328,7 +333,7 @@ namespace base
         return HRESULT_FROM_WIN32(result);
     }
 
-    HRESULT RegKey::ReadValue(_In_opt_ const wchar_t* name, _Out_ int64_t* out_value) const
+    HRESULT RegKey::ReadValue(_In_opt_ const char* name, _Out_ int64_t* out_value) const
     {
         *out_value = 0;
 
@@ -348,7 +353,7 @@ namespace base
         return HRESULT_FROM_WIN32(result);
     }
 
-    HRESULT RegKey::ReadValue(_In_opt_ const wchar_t* name, _Out_ std::wstring* out_value) const
+    HRESULT RegKey::ReadValue(_In_opt_ const char* name, _Out_ std::wstring* out_value) const
     {
         const size_t MAX_STRING_LENGTH = 1024;  // This is after expansion.
 
@@ -393,13 +398,15 @@ namespace base
         return HRESULT_FROM_WIN32(result);
     }
 
-    HRESULT RegKey::ReadValue(_In_opt_ const wchar_t* name, _Out_opt_ void* data, _Inout_opt_ DWORD* dsize, _Out_opt_ DWORD* dtype) const
+    HRESULT RegKey::ReadValue(_In_opt_ const char* name, _Out_opt_ void* data, _Inout_opt_ DWORD* dsize, _Out_opt_ DWORD* dtype) const
     {
+        auto name_wcs = name ? mbstowcs(name) : std::wstring();
+
         return HRESULT_FROM_WIN32(RegQueryValueExW(
-            _Key, name, nullptr, dtype, reinterpret_cast<LPBYTE>(data), dsize));
+            _Key, name_wcs.empty() ? nullptr : name_wcs.c_str(), nullptr, dtype, reinterpret_cast<LPBYTE>(data), dsize));
     }
 
-    HRESULT RegKey::ReadValues(_In_opt_ const wchar_t* name, _Out_ std::vector<std::wstring>* values)
+    HRESULT RegKey::ReadValues(_In_opt_ const char* name, _Out_ std::vector<std::wstring>* values)
     {
         values->clear();
 
@@ -435,29 +442,31 @@ namespace base
         return S_OK;
     }
 
-    HRESULT RegKey::WriteValue(_In_opt_ const wchar_t* name, _In_ DWORD in_value)
+    HRESULT RegKey::WriteValue(_In_opt_ const char* name, _In_ DWORD in_value)
     {
         return WriteValue(name, &in_value, static_cast<DWORD>(sizeof(in_value)),
             REG_DWORD);
     }
 
-    HRESULT RegKey::WriteValue(_In_opt_ const wchar_t* name, _In_ int64_t in_value)
+    HRESULT RegKey::WriteValue(_In_opt_ const char* name, _In_ int64_t in_value)
     {
         return WriteValue(name, &in_value, static_cast<DWORD>(sizeof(in_value)),
             REG_QWORD);
     }
 
-    HRESULT RegKey::WriteValue(_In_opt_ const wchar_t* name, _In_ const wchar_t* in_value)
+    HRESULT RegKey::WriteValue(_In_opt_ const char* name, _In_ const char* in_value)
     {
         return WriteValue(
             name, in_value,
-            static_cast<DWORD>(sizeof(*in_value) * (std::char_traits<wchar_t>::length(in_value) + 1)),
+            static_cast<DWORD>(sizeof(*in_value) * (std::char_traits<char>::length(in_value) + 1)),
             REG_SZ);
     }
 
-    HRESULT RegKey::WriteValue(_In_opt_ const wchar_t* name, _In_ const void* data, _In_ DWORD dsize, _In_ DWORD dtype)
+    HRESULT RegKey::WriteValue(_In_opt_ const char* name, _In_ const void* data, _In_ DWORD dsize, _In_ DWORD dtype)
     {
-        LONG result = RegSetValueExW(_Key, name, 0, dtype,
+        auto name_wcs = name ? mbstowcs(name) : std::wstring();
+
+        LONG result = RegSetValueExW(_Key, name_wcs.empty() ? nullptr : name_wcs.c_str(), 0, dtype,
             reinterpret_cast<LPBYTE>(const_cast<void*>(data)), dsize);
 
         return HRESULT_FROM_WIN32(result);

@@ -9,7 +9,7 @@ namespace base::modules
 {
     void* dlopen(
         _In_ const char* name,
-        _In_opt_ uint32_t mode = 0
+        _In_opt_ uint32_t mode = 0 // LoadLibrary.Flags
     );
 
     int dlclose(

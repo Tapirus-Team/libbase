@@ -7,15 +7,15 @@
 
 namespace base::process
 {
-    std::wstring RunSystemCommandGetResult(const std::wstring& cmd)
+    std::string RunSystemCommandGetResult(const std::string_view& cmd)
     {
         std::wstring result;
 
         wchar_t buffer[128]{};
-        FILE* pipe = _wpopen(cmd.c_str(), L"r");
+        FILE* pipe = _wpopen(mbstowcs(cmd).c_str(), L"r");
         if (!pipe)
         {
-            return result;
+            return {};
         }
         try
         {
@@ -31,7 +31,7 @@ namespace base::process
         }
 
         _pclose(pipe);
-        return result;
+        return wcstombs(result);
     }
 
 }
