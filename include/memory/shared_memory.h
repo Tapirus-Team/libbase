@@ -79,7 +79,7 @@ namespace base::memory
 
         // Gets a pointer to the opened memory space if it has been
         // Mapped via Map().  Returns NULL if it is not mapped.
-        void* Data() const;
+        void*& Data();
 
         // Returns the underlying OS handle for this segment.
         // Use of this handle for anything other than an opaque
@@ -131,8 +131,13 @@ namespace base::memory
 
     public:
         // std::unique_lock traits
-        void lock();
-        void unlock();
+        void lock() {
+            Lock();
+        }
+
+        void unlock() {
+            Unlock();
+        }
 
         template <class Rep, class Period>
         bool try_lock_for(const std::chrono::duration<Rep, Period>& rel_time) {

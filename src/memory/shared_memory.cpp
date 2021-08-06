@@ -151,7 +151,7 @@ namespace base::memory
         return info.MaximumSize.LowPart;
     }
 
-    void* SharedMemory::Data() const
+    void*& SharedMemory::Data()
     {
         return _Memory;
     }
