@@ -20,15 +20,15 @@
     <Filter Include="src\notifications">
       <UniqueIdentifier>{fbc99c13-f843-4ee0-85fb-f849b0c9b759}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\modules">
+      <UniqueIdentifier>{ad8b8921-7a80-476c-b085-efb6a53de19c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\console.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\src\libbase.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\module.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\src\registry.cpp">
@@ -66,6 +66,18 @@
     </ClCompile>
     <ClCompile Include="..\src\memory\search.cpp">
       <Filter>src\memory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\modules\iat_patch_function.cpp">
+      <Filter>src\modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\modules\library.cpp">
+      <Filter>src\modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\modules\resource.cpp">
+      <Filter>src\modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\modules\pe_parser.cpp">
+      <Filter>src\modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

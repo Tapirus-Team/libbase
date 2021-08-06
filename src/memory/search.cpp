@@ -8,6 +8,37 @@
 
 namespace base::memory
 {
+    DWORD ModifyCode(void* old_code, void* new_code, int length) {
+        if ((old_code == nullptr) || (new_code == nullptr) || (length == 0)) {
+            return ERROR_INVALID_PARAMETER;
+        }
+        // Change the page protection so that we can write.
+        DWORD error = NO_ERROR;
+        DWORD old_page_protection = 0;
+
+        if (VirtualProtect(
+            old_code,
+            length,
+            PAGE_READWRITE,
+            &old_page_protection)) {
+
+            // Write the data.
+            CopyMemory(old_code, new_code, length);
+
+            // Restore the old page protection.
+            VirtualProtect(
+                old_code,
+                length,
+                old_page_protection,
+                &old_page_protection);
+        }
+        else {
+            error = GetLastError();
+        }
+
+        return error;
+    }
+
     void* MemorySearch(
         _In_bytecount_(aBytes) void* aAddress,
         _In_ size_t aBytes,

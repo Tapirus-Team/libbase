@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#include "universal.inl"
+#include "../universal.inl"
 
 
 namespace base::modules
@@ -12,7 +12,7 @@ namespace base::modules
         _In_opt_ uint32_t mode
     )
     {
-        auto name_wcs  = mbstowcs(name);
+        auto name_wcs = mbstowcs(name);
         HMODULE handle = nullptr;
 
         // ref:x+1

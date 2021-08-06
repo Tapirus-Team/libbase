@@ -25,7 +25,10 @@
     <ClCompile Include="..\src\memory\search.cpp" />
     <ClCompile Include="..\src\memory\shared_memory.cpp" />
     <ClCompile Include="..\src\memory\singleton.cpp" />
-    <ClCompile Include="..\src\module.cpp" />
+    <ClCompile Include="..\src\modules\iat_patch_function.cpp" />
+    <ClCompile Include="..\src\modules\library.cpp" />
+    <ClCompile Include="..\src\modules\pe_parser.cpp" />
+    <ClCompile Include="..\src\modules\resource.cpp" />
     <ClCompile Include="..\src\notifications\module.cpp" />
     <ClCompile Include="..\src\process\info.cpp" />
     <ClCompile Include="..\src\process\launch.cpp" />
