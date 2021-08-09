@@ -41,16 +41,16 @@ namespace base
         // string may end with ".*" (e.g. 1.2.*, 1.*). Any other arrangement with "*"
         // is invalid (e.g. 1.*.3 or 1.2.3*). This functions defaults to standard
         // Version behavior (IsValid) if no wildcard is present.
-        static bool IsValidWildcardString(std::string_view wildcard_string);
+        static bool IsValidWildcardString(_In_ std::string_view wildcard_string);
 
         // Returns -1, 0, 1 for <, ==, >.
-        int CompareTo(const Version& other) const;
+        int CompareTo(_In_ const Version& other) const;
 
         // Given a valid version object, compare if a |wildcard_string| results in a
         // newer version. This function will default to CompareTo if the string does
         // not end in wildcard sequence ".*". IsValidWildcard(wildcard_string) must be
         // true before using this function.
-        int CompareToWildcardString(std::string_view wildcard_string) const;
+        int CompareToWildcardString(_In_ std::string_view wildcard_string) const;
 
         // Return the string representation of this version.
         std::string GetString() const;

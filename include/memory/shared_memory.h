@@ -37,15 +37,15 @@ namespace base::memory
 
         // Creates a shared memory object as described by the options struct.
         // Returns true on success and false on failure.
-        bool Create(const std::string_view name, bool open_existing, uint32_t size);
+        bool Create(_In_opt_ const std::string_view name, _In_ bool open_existing, _In_ uint32_t size);
 
         // Creates and maps an anonymous shared memory segment of size size.
         // Returns true on success and false on failure.
-        bool CreateAndMapAnonymous(uint32_t size);
+        bool CreateAndMapAnonymous(_In_ uint32_t size);
 
         // Creates an anonymous shared memory segment of size size.
         // Returns true on success and false on failure.
-        bool CreateAnonymous(uint32_t size) {
+        bool CreateAnonymous(_In_ uint32_t size) {
             return Create({}, false, size);
         }
 
@@ -55,19 +55,19 @@ namespace base::memory
         // If open_existing is false, shared memory must not exist.
         // size is the size of the block to be created.
         // Returns true on success, false on failure.
-        bool CreateNamed(const std::string_view name, bool open_existing, uint32_t size) {
+        bool CreateNamed(_In_ const std::string_view name, _In_ bool open_existing, _In_ uint32_t size) {
             return Create(name, size, open_existing);
         }
 
         // Opens a shared memory segment based on a name.
         // If read_only is true, opens for read-only access.
         // Returns true on success, false on failure.
-        bool Open(const std::string_view name, bool read_only);
+        bool Open(_In_ const std::string_view name, _In_ bool read_only);
 
         // Maps the shared memory into the caller's address space.
         // Returns true on success, false otherwise.  The memory address
         // is accessed via the memory() accessor.
-        bool Map(uint32_t bytes);
+        bool Map(_In_ uint32_t bytes);
 
         // Unmaps the shared memory from the caller's address space.
         // Returns true if successful; returns false on error or if the
@@ -96,7 +96,7 @@ namespace base::memory
         // file.  new_handle is an ouput parameter to receive
         // the handle for use in the remote process.
         // Returns true on success, false otherwise.
-        bool ShareToProcess(HANDLE process, HANDLE* new_handle) {
+        bool ShareToProcess(_In_ HANDLE process, _Out_ HANDLE* new_handle) {
             return ShareToProcessCommon(process, new_handle, false);
         }
 
@@ -106,7 +106,7 @@ namespace base::memory
         //   return ok;
         // Note that the memory is unmapped by calling this method, regardless of the
         // return value.
-        bool GiveToProcess(HANDLE process, HANDLE* new_handle) {
+        bool GiveToProcess(_In_ HANDLE process, _Out_ HANDLE* new_handle) {
             return ShareToProcessCommon(process, new_handle, true);
         }
 
@@ -124,7 +124,7 @@ namespace base::memory
         // security attributes on the mutex. sec_attr may be NULL.
         // Returns true if the Lock() has been acquired, false if the timeout was
         // reached.
-        bool Lock(uint32_t timeout_ms, SECURITY_ATTRIBUTES* sec_attr);
+        bool Lock(_In_ uint32_t timeout_ms, _In_opt_ SECURITY_ATTRIBUTES* sec_attr);
 
         // Releases the shared memory lock.
         void Unlock();
@@ -150,7 +150,7 @@ namespace base::memory
         }
 
     private:
-        bool ShareToProcessCommon(HANDLE process, HANDLE* new_handle, bool close_self);
+        bool ShareToProcessCommon(_In_ HANDLE process, _Out_ HANDLE* new_handle, _In_ bool close_self);
 
         std::string _Name;
         HANDLE      _Section  = nullptr;

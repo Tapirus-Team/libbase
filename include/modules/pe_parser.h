@@ -94,11 +94,11 @@ namespace base::modules
         // Gets the HMODULE for this object.
         HMODULE Module() const;
         // Sets this object's HMODULE.
-        void SetModule(HMODULE module);
+        void SetModule(_In_ HMODULE module);
         // Checks if this symbol is actually an ordinal.
-        static bool IsOrdinal(LPCSTR name);
+        static bool IsOrdinal(_In_ LPCSTR name);
         // Converts a named symbol to the corresponding ordinal.
-        static WORD ToOrdinal(LPCSTR name);
+        static WORD ToOrdinal(_In_ LPCSTR name);
         // Returns the DOS_HEADER for this PE.
         PIMAGE_DOS_HEADER GetDosHeader() const;
         // Returns the NT_HEADER for this PE.
@@ -107,18 +107,18 @@ namespace base::modules
         WORD GetNumSections() const;
         // Returns the header for a given section.
         // returns NULL if there is no such section.
-        PIMAGE_SECTION_HEADER GetSectionHeader(UINT section) const;
+        PIMAGE_SECTION_HEADER GetSectionHeader(_In_ UINT section) const;
         // Returns the size of a given directory entry.
-        DWORD GetImageDirectoryEntrySize(UINT directory) const;
+        DWORD GetImageDirectoryEntrySize(_In_ UINT directory) const;
         // Returns the address of a given directory entry.
-        PVOID GetImageDirectoryEntryAddr(UINT directory) const;
+        PVOID GetImageDirectoryEntryAddr(_In_ UINT directory) const;
         // Returns the section header for a given address.
         // Use: s = image.GetImageSectionFromAddr(a);
         // Post: 's' is the section header of the section that contains 'a'
         //       or NULL if there is no such section.
-        PIMAGE_SECTION_HEADER GetImageSectionFromAddr(PVOID address) const;
+        PIMAGE_SECTION_HEADER GetImageSectionFromAddr(_In_ PVOID address) const;
         // Returns the section header for a given section.
-        PIMAGE_SECTION_HEADER GetImageSectionHeaderByName(LPCSTR section_name) const;
+        PIMAGE_SECTION_HEADER GetImageSectionHeaderByName(_In_ LPCSTR section_name) const;
         // Returns the first block of imports.
         PIMAGE_IMPORT_DESCRIPTOR GetFirstImportChunk() const;
         // Returns the exports directory.
@@ -129,7 +129,7 @@ namespace base::modules
         // Post: 'e' is a pointer to the export directory entry
         //       that contains 'f's export RVA, or NULL if 'f'
         //       is not exported from this image
-        PDWORD GetExportEntry(LPCSTR name) const;
+        PDWORD GetExportEntry(_In_ LPCSTR name) const;
         // Returns the address for a given exported symbol.
         // Use: p = image.GetProcAddress(f);
         // Pre: 'f' is either a zero terminated string or ordinal.
@@ -138,67 +138,70 @@ namespace base::modules
         //       then p is the special value 0xFFFFFFFF. In this case
         //       RVAToAddr(*GetExportEntry) can be used to resolve
         //       the string that describes the forward.
-        FARPROC GetProcAddress(LPCSTR function_name) const;
+        FARPROC GetProcAddress(_In_ LPCSTR function_name) const;
         // Retrieves the ordinal for a given exported symbol.
         // Returns true if the symbol was found.
-        bool GetProcOrdinal(LPCSTR function_name, WORD* ordinal) const;
+        bool GetProcOrdinal(_In_ LPCSTR function_name, _Out_ WORD* ordinal) const;
         // Enumerates PE sections.
         // cookie is a generic cookie to pass to the callback.
         // Returns true on success.
-        bool EnumSections(EnumSectionsFunction callback, PVOID cookie) const;
+        bool EnumSections(_In_ EnumSectionsFunction callback, _In_opt_ PVOID cookie) const;
         // Enumerates PE exports.
         // cookie is a generic cookie to pass to the callback.
         // Returns true on success.
-        bool EnumExports(EnumExportsFunction callback, PVOID cookie) const;
+        bool EnumExports(_In_ EnumExportsFunction callback, _In_opt_ PVOID cookie) const;
         // Enumerates PE imports.
         // cookie is a generic cookie to pass to the callback.
         // Returns true on success.
-        bool EnumAllImports(EnumImportsFunction callback, PVOID cookie) const;
+        bool EnumAllImports(_In_ EnumImportsFunction callback, _In_opt_ PVOID cookie) const;
         // Enumerates PE import blocks.
         // cookie is a generic cookie to pass to the callback.
         // Returns true on success.
-        bool EnumImportChunks(EnumImportChunksFunction callback, PVOID cookie) const;
+        bool EnumImportChunks(_In_ EnumImportChunksFunction callback, _In_opt_ PVOID cookie) const;
         // Enumerates the imports from a single PE import block.
         // cookie is a generic cookie to pass to the callback.
         // Returns true on success.
-        bool EnumOneImportChunk(EnumImportsFunction callback, LPCSTR module_name,
-            PIMAGE_THUNK_DATA name_table, PIMAGE_THUNK_DATA iat,
-            PVOID cookie) const;
+        bool EnumOneImportChunk(
+            _In_ EnumImportsFunction callback,
+            _In_ LPCSTR module_name,
+            _In_ PIMAGE_THUNK_DATA name_table,
+            _In_ PIMAGE_THUNK_DATA iat,
+            _In_opt_ PVOID cookie) const;
         // Enumerates PE delay imports.
         // cookie is a generic cookie to pass to the callback.
         // Returns true on success.
-        bool EnumAllDelayImports(EnumImportsFunction callback, PVOID cookie) const;
+        bool EnumAllDelayImports(_In_ EnumImportsFunction callback, _In_opt_ PVOID cookie) const;
         // Enumerates PE delay import blocks.
         // cookie is a generic cookie to pass to the callback.
         // Returns true on success.
-        bool EnumDelayImportChunks(EnumDelayImportChunksFunction callback,
-            PVOID cookie) const;
+        bool EnumDelayImportChunks(_In_ EnumDelayImportChunksFunction callback, _In_opt_ PVOID cookie) const;
         // Enumerates imports from a single PE delay import block.
         // cookie is a generic cookie to pass to the callback.
         // Returns true on success.
-        bool EnumOneDelayImportChunk(EnumImportsFunction callback,
-            PImgDelayDescr delay_descriptor,
-            LPCSTR module_name,
-            PIMAGE_THUNK_DATA name_table,
-            PIMAGE_THUNK_DATA iat,
-            PIMAGE_THUNK_DATA bound_iat,
-            PIMAGE_THUNK_DATA unload_iat,
-            PVOID cookie) const;
+        bool EnumOneDelayImportChunk(
+            _In_ EnumImportsFunction callback,
+            _In_ PImgDelayDescr delay_descriptor,
+            _In_ LPCSTR module_name,
+            _In_ PIMAGE_THUNK_DATA name_table,
+            _In_ PIMAGE_THUNK_DATA iat,
+            _In_ PIMAGE_THUNK_DATA bound_iat,
+            _In_ PIMAGE_THUNK_DATA unload_iat,
+            _In_opt_ PVOID cookie) const;
         // Enumerates PE relocation entries.
         // cookie is a generic cookie to pass to the callback.
         // Returns true on success.
-        bool EnumRelocs(EnumRelocsFunction callback, PVOID cookie) const;
+        bool EnumRelocs(_In_ EnumRelocsFunction callback, _In_opt_ PVOID cookie) const;
         // Verifies the magic values on the PE file.
         // Returns true if all values are correct.
         bool VerifyMagic() const;
         // Converts an rva value to the appropriate address.
-        virtual PVOID RVAToAddr(DWORD rva) const;
+        virtual PVOID RVAToAddr(_In_ DWORD rva) const;
         // Converts an rva value to an offset on disk.
         // Returns true on success.
-        bool ImageRVAToOnDiskOffset(DWORD rva, DWORD* on_disk_offset) const;
+        bool ImageRVAToOnDiskOffset(_In_ DWORD rva, _Out_ DWORD* on_disk_offset) const;
         // Converts an address to an offset on disk.
         // Returns true on success.
-        bool ImageAddrToOnDiskOffset(LPVOID address, DWORD* on_disk_offset) const;
+        bool ImageAddrToOnDiskOffset(_In_ LPVOID address, _Out_ DWORD* on_disk_offset) const;
 
     private:
         HMODULE _Module;
@@ -210,10 +213,10 @@ namespace base::modules
     {
     public:
         explicit PEImageAsData(HMODULE hModule) : PEImage(hModule) {}
-        virtual PVOID RVAToAddr(DWORD rva) const;
+        virtual PVOID RVAToAddr(_In_ DWORD rva) const;
     };
 
-    inline bool PEImage::IsOrdinal(LPCSTR name) {
+    inline bool PEImage::IsOrdinal(_In_ LPCSTR name) {
 #pragma warning(push)
 #pragma warning(disable: 4311)
         // This cast generates a warning because it is 32 bit specific.
@@ -221,7 +224,7 @@ namespace base::modules
 #pragma warning(pop)
     }
 
-    inline WORD PEImage::ToOrdinal(LPCSTR name) {
+    inline WORD PEImage::ToOrdinal(_In_ LPCSTR name) {
         return static_cast<WORD>(reinterpret_cast<size_t>(name));
     }
 
@@ -239,4 +242,9 @@ namespace base::modules
             GetImageDirectoryEntryAddr(IMAGE_DIRECTORY_ENTRY_EXPORT));
     }
 
+}
+
+namespace base
+{
+    using modules::PEImage;
 }

@@ -57,15 +57,14 @@ namespace base::files
 
         // Lets you access other properties not covered above. |value| is only
         // modified if GetValue() returns true.
-        bool GetValue(const wchar_t* name, std::wstring* value) const;
+        bool GetValue(_In_ const wchar_t* name, _Out_ std::wstring* value) const;
 
         // Similar to GetValue but returns a std::u16string (empty string if the
         // property does not exist).
-        std::wstring GetStringValue(const wchar_t* name) const;
+        std::wstring GetStringValue(_In_ const wchar_t* name) const;
 
         // Behaves like CreateFileVersionInfo, but returns a FileVersionInfo.
-        static std::unique_ptr<FileVersionInfo> New(
-            const std::filesystem::path& file_path);
+        static std::unique_ptr<FileVersionInfo> New(_In_ const std::filesystem::path& file_path);
     };
 }
 

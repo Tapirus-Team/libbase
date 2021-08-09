@@ -85,7 +85,7 @@ namespace base
     }
 
     // static
-    bool Version::IsValidWildcardString(std::string_view wildcard_string)
+    bool Version::IsValidWildcardString(_In_ std::string_view wildcard_string)
     {
         std::string_view version_string = wildcard_string;
         if (strings::ends_with<decltype(version_string)::value_type>(version_string, ".*"))
@@ -95,7 +95,7 @@ namespace base
         return version.IsValid();
     }
 
-    int Version::CompareToWildcardString(std::string_view wildcard_string) const
+    int Version::CompareToWildcardString(_In_ std::string_view wildcard_string) const
     {
         // Default behavior if the string doesn't end with a wildcard.
         if (!strings::ends_with<decltype(wildcard_string)::value_type>(wildcard_string, ".*"))
@@ -129,7 +129,7 @@ namespace base
         return 0;
     }
 
-    int Version::CompareTo(const Version & other) const
+    int Version::CompareTo(_In_ const Version & other) const
     {
         return CompareVersionComponents(_Components, other._Components);
     }

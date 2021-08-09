@@ -30,33 +30,33 @@ namespace base::strings
     wchar_t toupper(wchar_t c);
 
     template<typename T>
-    void to_lower(std::basic_string<T>& str)
+    void to_lower(_Inout_ std::basic_string<T>& str)
     {
         std::transform(str.begin(), str.end(), str.begin(), &tolower<T>);
     }
 
     template<typename T>
-    void to_upper(std::basic_string<T>& str)
+    void to_upper(_Inout_ std::basic_string<T>& str)
     {
         std::transform(str.begin(), str.end(), str.begin(), &toupper<T>);
     }
 
     template<typename T>
-    std::basic_string<T> to_lower_copy(std::basic_string<T> str)
+    std::basic_string<T> to_lower_copy(_In_ std::basic_string<T> str)
     {
         std::transform(str.begin(), str.end(), str.begin(), &tolower<T>);
         return std::move(str);
     }
 
     template<typename T>
-    std::basic_string<T> to_upper_copy(std::basic_string<T> str)
+    std::basic_string<T> to_upper_copy(_In_ std::basic_string<T> str)
     {
         std::transform(str.begin(), str.end(), str.begin(), &toupper<T>);
         return std::move(str);
     }
 
     template<typename T>
-    std::vector<typename std::basic_string_view<T>> split(std::basic_string_view<T> str, const std::basic_string_view<T> delims)
+    std::vector<typename std::basic_string_view<T>> split(_In_ std::basic_string_view<T> str, _In_ const std::basic_string_view<T> delims)
     {
         size_t first = 0;
         std::vector<std::basic_string_view<T>> output;
@@ -78,7 +78,7 @@ namespace base::strings
     }
 
     template<typename T>
-    constexpr bool starts_with(std::basic_string_view<T> str, const std::basic_string_view<T> search_for, bool ignore_case = false)
+    constexpr bool starts_with(_In_ std::basic_string_view<T> str, _In_ const std::basic_string_view<T> search_for, _In_opt_ bool ignore_case = false)
     {
         if (search_for.size() > str.size())
             return false;
@@ -97,7 +97,7 @@ namespace base::strings
     }
 
     template<typename T>
-    constexpr bool ends_with(std::basic_string_view<T> str, const std::basic_string_view<T> search_for, bool ignore_case = false)
+    constexpr bool ends_with(_In_ std::basic_string_view<T> str, _In_ const std::basic_string_view<T> search_for, _In_opt_ bool ignore_case = false)
     {
         if (search_for.size() > str.size())
             return false;
@@ -116,7 +116,7 @@ namespace base::strings
     }
 
     template<typename T>
-    constexpr bool contains(const std::basic_string_view<T> str, const std::basic_string_view<T> search_for, bool ignore_case = false)
+    constexpr bool contains(_In_ const std::basic_string_view<T> str, _In_ const std::basic_string_view<T> search_for, _In_opt_ bool ignore_case = false)
     {
         if (search_for.size() > str.size())
             return false;

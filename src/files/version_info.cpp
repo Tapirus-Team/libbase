@@ -42,7 +42,7 @@ namespace base::files
 
     }  // namespace
 
-    std::unique_ptr<FileVersionInfo> FileVersionInfo::New(const std::filesystem::path& file_path)
+    std::unique_ptr<FileVersionInfo> FileVersionInfo::New(_In_ const std::filesystem::path& file_path)
     {
         DWORD dummy = 0;
         const wchar_t* path = file_path.c_str();
@@ -131,8 +131,10 @@ namespace base::files
         return GetStringValue(L"FileVersion");
     }
 
-    bool FileVersionInfo::GetValue(const wchar_t* name, std::wstring* value) const
+    bool FileVersionInfo::GetValue(_In_ const wchar_t* name, _Out_ std::wstring* value) const
     {
+        value->clear();
+
         const struct LanguageAndCodePage lang_codepages[] =
         {
             // Use the language and codepage from the DLL.
@@ -167,7 +169,7 @@ namespace base::files
         return false;
     }
 
-    std::wstring FileVersionInfo::GetStringValue(const wchar_t* name) const
+    std::wstring FileVersionInfo::GetStringValue(_In_ const wchar_t* name) const
     {
         std::wstring str;
         GetValue(name, &str);

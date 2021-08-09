@@ -165,10 +165,10 @@ namespace base::modules
     }
 
     DWORD IATPatchFunction::Patch(
-        const char* module,
-        const char* imported_from_module,
-        const char* function_name,
-        void* new_function
+        _In_ const char* module,
+        _In_ const char* imported_from_module,
+        _In_ const char* function_name,
+        _In_ void* new_function
     ) {
 
         auto name_wcs = mbstowcs(module);
@@ -226,4 +226,9 @@ namespace base::modules
         return (_InterceptFunction != nullptr);
     }
 
+}
+
+namespace base
+{
+    using modules::IATPatchFunction;
 }

@@ -7,7 +7,7 @@
 
 namespace base::process
 {
-    std::string RunSystemCommandGetResult(const std::string_view cmd);
+    std::string RunSystemCommandGetResult(_In_ const std::string_view cmd);
 }
 
 namespace base

@@ -7,7 +7,7 @@
 
 namespace base::stdext::filesystem
 {
-    std::filesystem::path module_path(void* mod)
+    std::filesystem::path module_path(_In_opt_ void* mod)
     {
         enum : size_t { INIT_SIZE = MAX_PATH, MAX_SIZE = 23768ul };
 
@@ -43,7 +43,7 @@ namespace base::stdext::filesystem
         return path;
     }
 
-    std::filesystem::path expand_path(const std::filesystem::path& unexpand)
+    std::filesystem::path expand_path(_In_ const std::filesystem::path& unexpand)
     {
         std::wstring buf;
 

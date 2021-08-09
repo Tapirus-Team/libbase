@@ -42,10 +42,10 @@ namespace base::modules
         // unloaded.  The idea is to help prevent the DLL from going away while a
         // patch is still active.
         DWORD Patch(
-            const char* module,
-            const char* imported_from_module,
-            const char* function_name,
-            void* new_function);
+            _In_ const char* module,
+            _In_ const char* imported_from_module,
+            _In_ const char* function_name,
+            _In_ void* new_function);
         // Unpatch the IAT entry using internally saved original
         // function.
         //

@@ -8,10 +8,15 @@
 
 namespace base::memory
 {
-    DWORD ModifyCode(void* old_code, void* new_code, int length) {
+    DWORD ModifyCode(
+        _Inout_ void* old_code,
+        _In_bytecount_(length)  void* new_code,
+        _In_ int length
+    ) {
         if ((old_code == nullptr) || (new_code == nullptr) || (length == 0)) {
             return ERROR_INVALID_PARAMETER;
         }
+
         // Change the page protection so that we can write.
         DWORD error = NO_ERROR;
         DWORD old_page_protection = 0;

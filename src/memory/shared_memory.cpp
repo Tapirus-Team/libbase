@@ -41,7 +41,7 @@ namespace base::memory
         }
     }
 
-    bool SharedMemory::Create(const std::string_view name, bool open_existing, uint32_t size)
+    bool SharedMemory::Create(_In_opt_ const std::string_view name, _In_ bool open_existing, _In_ uint32_t size)
     {
         if (size == 0) {
             return false;
@@ -81,12 +81,12 @@ namespace base::memory
         return true;
     }
 
-    bool SharedMemory::CreateAndMapAnonymous(uint32_t size)
+    bool SharedMemory::CreateAndMapAnonymous(_In_ uint32_t size)
     {
         return CreateAnonymous(size) && Map(size);
     }
 
-    bool SharedMemory::Open(const std::string_view name, bool read_only)
+    bool SharedMemory::Open(_In_ const std::string_view name, _In_ bool read_only)
     {
         auto name_wcs = mbstowcs(name);
 
@@ -105,7 +105,7 @@ namespace base::memory
         return false;
     }
 
-    bool SharedMemory::Map(uint32_t bytes)
+    bool SharedMemory::Map(_In_ uint32_t bytes)
     {
         if (_Section == nullptr) {
             return false;
@@ -174,7 +174,7 @@ namespace base::memory
         }
     }
 
-    bool SharedMemory::ShareToProcessCommon(HANDLE process, HANDLE* new_handle, bool close_self)
+    bool SharedMemory::ShareToProcessCommon(_In_ HANDLE process, _Out_ HANDLE* new_handle, _In_ bool close_self)
     {
         *new_handle     = nullptr;
         DWORD access    = STANDARD_RIGHTS_REQUIRED | FILE_MAP_READ;
@@ -206,7 +206,7 @@ namespace base::memory
         return true;
     }
 
-    bool SharedMemory::Lock(uint32_t timeout_ms, SECURITY_ATTRIBUTES* sec_attr)
+    bool SharedMemory::Lock(_In_ uint32_t timeout_ms, _In_opt_ SECURITY_ATTRIBUTES* sec_attr)
     {
         if (_Lock == nullptr) {
             auto name_wcs = mbstowcs(_Name).append(L"_lock");

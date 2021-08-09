@@ -126,8 +126,8 @@ namespace base::stdext
 
 namespace base::stdext::filesystem
 {
-    std::filesystem::path module_path(void* mod = nullptr);
-    std::filesystem::path expand_path(const std::filesystem::path& unexpand);
+    std::filesystem::path module_path(_In_opt_ void* mod = nullptr);
+    std::filesystem::path expand_path(_In_ const std::filesystem::path& unexpand);
 }
 
 namespace base::stdext

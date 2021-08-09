@@ -16,7 +16,11 @@ namespace base::memory
     // length                 Number of bytes to copy
     //
     // Returns: Windows error code (winerror.h). NO_ERROR if successful
-    DWORD ModifyCode(void* old_code, void* new_code, int length);
+    DWORD ModifyCode(
+        _Inout_ void* old_code,
+        _In_bytecount_(length)  void* new_code,
+        _In_ int length
+    );
 
     void* MemorySearch(
         _In_bytecount_(aBytes)  void* aAddress,
