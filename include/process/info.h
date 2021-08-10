@@ -32,6 +32,11 @@ namespace base::process
         _In_ LPCWSTR privilege,  // name of privilege to enable/disable
         _In_ BOOL    enable      // to enable or disable privilege
     );
+
+    std::shared_ptr<uint8_t> QueryInformationProcess(
+        _In_ PROCESSINFOCLASS query_class,
+        _In_ HANDLE process
+    );
 }
 
 namespace base
@@ -40,4 +45,5 @@ namespace base
     using process::GetProcessIntegrityLevel;
     using process::IsProcessElevated;
     using process::SetProcessPrivilege;
+    using process::QueryInformationProcess;
 }

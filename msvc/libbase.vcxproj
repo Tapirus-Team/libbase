@@ -31,11 +31,13 @@
     <ClCompile Include="..\src\modules\resource.cpp" />
     <ClCompile Include="..\src\notifications\module.cpp" />
     <ClCompile Include="..\src\process\info.cpp" />
+    <ClCompile Include="..\src\process\iter.cpp" />
     <ClCompile Include="..\src\process\launch.cpp" />
     <ClCompile Include="..\src\registry.cpp" />
     <ClCompile Include="..\src\stdext.cpp" />
     <ClCompile Include="..\src\strings\codepage.cpp" />
     <ClCompile Include="..\src\strings\util.cpp" />
+    <ClCompile Include="..\src\system.cpp" />
     <ClCompile Include="..\src\version.cpp" />
   </ItemGroup>
   <ItemGroup>

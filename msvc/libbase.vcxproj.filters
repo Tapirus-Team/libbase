@@ -79,6 +79,12 @@
     <ClCompile Include="..\src\modules\pe_parser.cpp">
       <Filter>src\modules</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\process\iter.cpp">
+      <Filter>src\process</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\system.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\src\universal.inl">

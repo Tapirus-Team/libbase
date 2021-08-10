@@ -129,4 +129,31 @@ namespace base::process
         return true;
     }
 
+    std::shared_ptr<uint8_t> QueryInformationProcess(
+        _In_ PROCESSINFOCLASS query_class,
+        _In_ HANDLE process
+    )
+    {
+        NTSTATUS result = STATUS_SUCCESS;
+        auto need_bytes = 0ul;
+        auto information = std::shared_ptr<uint8_t>();
+
+        result = ZwQueryInformationProcess(process, query_class, nullptr, 0, &need_bytes);
+        if (need_bytes == 0) {
+            return nullptr;
+        }
+        need_bytes += 512;
+
+        information = std::shared_ptr<uint8_t>(new uint8_t[need_bytes]{});
+        if (information == nullptr) {
+            return nullptr;
+        }
+
+        result = ZwQueryInformationProcess(process, query_class, information.get(), need_bytes, &need_bytes);
+        if (!NT_SUCCESS(result)) {
+            return nullptr;
+        }
+
+        return information;
+    }
 }

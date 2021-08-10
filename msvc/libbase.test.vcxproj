@@ -21,6 +21,11 @@
   <ItemGroup>
     <ClCompile Include="..\test\unittest.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="libbase.vcxproj">
+      <Project>{1ded7983-3697-40e4-a771-ce259ae8b8a6}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
