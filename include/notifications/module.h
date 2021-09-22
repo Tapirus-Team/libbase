@@ -15,7 +15,7 @@ typedef VOID(NTAPI* PLDR_DLL_NOTIFICATION_FUNCTION)(
 
 namespace base
 {
-    class ModuleNotification
+    class ModuleNotification : public Singleton<ModuleNotification>
     {
         void* _Cookie = nullptr;
 
