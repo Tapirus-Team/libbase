@@ -195,10 +195,10 @@ namespace base::modules
         // Returns true if all values are correct.
         bool VerifyMagic() const;
         // Converts an rva value to the appropriate address.
-        virtual PVOID RVAToAddr(_In_ DWORD rva) const;
+        virtual PVOID RVAToAddr(_In_ size_t rva) const;
         // Converts an rva value to an offset on disk.
         // Returns true on success.
-        bool ImageRVAToOnDiskOffset(_In_ DWORD rva, _Out_ DWORD* on_disk_offset) const;
+        bool ImageRVAToOnDiskOffset(_In_ size_t rva, _Out_ DWORD* on_disk_offset) const;
         // Converts an address to an offset on disk.
         // Returns true on success.
         bool ImageAddrToOnDiskOffset(_In_ LPVOID address, _Out_ DWORD* on_disk_offset) const;
@@ -213,14 +213,14 @@ namespace base::modules
     {
     public:
         explicit PEImageAsData(HMODULE hModule) : PEImage(hModule) {}
-        virtual PVOID RVAToAddr(_In_ DWORD rva) const;
+        virtual PVOID RVAToAddr(_In_ size_t rva) const;
     };
 
     inline bool PEImage::IsOrdinal(_In_ LPCSTR name) {
 #pragma warning(push)
 #pragma warning(disable: 4311)
         // This cast generates a warning because it is 32 bit specific.
-        return reinterpret_cast<DWORD>(name) <= 0xFFFF;
+        return reinterpret_cast<size_t>(name) <= 0xFFFF;
 #pragma warning(pop)
     }
 

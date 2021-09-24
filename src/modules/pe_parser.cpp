@@ -473,7 +473,7 @@ namespace base::modules
         return true;
     }
 
-    bool PEImage::ImageRVAToOnDiskOffset(_In_ DWORD rva, _Out_ DWORD* on_disk_offset) const {
+    bool PEImage::ImageRVAToOnDiskOffset(_In_ size_t rva, _Out_ DWORD* on_disk_offset) const {
         LPVOID address = RVAToAddr(rva);
         return ImageAddrToOnDiskOffset(address, on_disk_offset);
     }
@@ -493,21 +493,21 @@ namespace base::modules
 #pragma warning(disable: 4311)
         // These casts generate warnings because they are 32 bit specific.
         // Don't follow the virtual RVAToAddr, use the one on the base.
-        DWORD offset_within_section = reinterpret_cast<DWORD>(address) -
-            reinterpret_cast<DWORD>(PEImage::RVAToAddr(section_header->VirtualAddress));
+        size_t offset_within_section = reinterpret_cast<size_t>(address) -
+            reinterpret_cast<size_t>(PEImage::RVAToAddr(section_header->VirtualAddress));
 #pragma warning(pop)
 
-        * on_disk_offset = section_header->PointerToRawData + offset_within_section;
+        * on_disk_offset = static_cast<DWORD>(section_header->PointerToRawData + offset_within_section);
         return true;
     }
 
-    PVOID PEImage::RVAToAddr(_In_ DWORD rva) const {
+    PVOID PEImage::RVAToAddr(_In_ size_t rva) const {
         if (rva == 0)
             return nullptr;
         return reinterpret_cast<char*>(_Module) + rva;
     }
 
-    PVOID PEImageAsData::RVAToAddr(_In_ DWORD rva) const {
+    PVOID PEImageAsData::RVAToAddr(_In_ size_t rva) const {
         if (rva == 0) {
             return nullptr;
         }
