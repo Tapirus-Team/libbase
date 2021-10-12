@@ -94,15 +94,11 @@ namespace base::memory
             read_only ? FILE_MAP_READ : FILE_MAP_ALL_ACCESS,
             false,
             name_wcs.empty() ? nullptr : name_wcs.c_str());
-        if (_Section != nullptr) {
-            // Note: size_ is not set in this case.
-            return true;
-        }
 
         _Name     = name;
         _ReadOnly = read_only;
 
-        return false;
+        return !!_Section;
     }
 
     bool SharedMemory::Map(_In_ uint32_t bytes)
@@ -116,11 +112,8 @@ namespace base::memory
             _ReadOnly ? FILE_MAP_READ : FILE_MAP_ALL_ACCESS,
             0, 0,
             bytes);
-        if (_Memory != nullptr) {
-            return true;
-        }
 
-        return false;
+        return !!_Memory;
     }
 
     bool SharedMemory::Unmap()

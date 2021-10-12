@@ -56,7 +56,7 @@ namespace base::memory
         // size is the size of the block to be created.
         // Returns true on success, false on failure.
         bool CreateNamed(_In_ const std::string_view name, _In_ bool open_existing, _In_ uint32_t size) {
-            return Create(name, size, open_existing);
+            return Create(name, open_existing, size);
         }
 
         // Opens a shared memory segment based on a name.
