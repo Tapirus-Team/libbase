@@ -3,6 +3,8 @@
 // found in the LICENSE file.
 
 #pragma once
+#include <string>
+#include <memory>
 
 
 namespace base::process

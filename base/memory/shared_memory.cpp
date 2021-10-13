@@ -47,7 +47,7 @@ namespace base::memory
             return false;
         }
 
-        auto name_wcs = mbstowcs(name);
+        auto name_wcs = mbstowcs(name, CP_UTF8);
 
         // NaCl's memory allocator requires 0mod64K alignment and size for
         // shared memory objects.  To allow passing shared memory to NaCl,
@@ -88,7 +88,7 @@ namespace base::memory
 
     bool SharedMemory::Open(_In_ const std::string_view name, _In_ bool read_only)
     {
-        auto name_wcs = mbstowcs(name);
+        auto name_wcs = mbstowcs(name, CP_UTF8);
 
         _Section  = OpenFileMappingW(
             read_only ? FILE_MAP_READ : FILE_MAP_ALL_ACCESS,
@@ -202,7 +202,7 @@ namespace base::memory
     bool SharedMemory::Lock(_In_ uint32_t timeout_ms, _In_opt_ SECURITY_ATTRIBUTES* sec_attr)
     {
         if (_Lock == nullptr) {
-            auto name_wcs = mbstowcs(_Name).append(L"_lock");
+            auto name_wcs = mbstowcs(_Name, CP_UTF8).append(L"_lock");
 
             _Lock = CreateMutexW(sec_attr, FALSE, name_wcs.c_str());
             if (_Lock == nullptr) {

@@ -12,7 +12,7 @@ namespace base::modules
         _In_opt_ uint32_t mode
     )
     {
-        auto name_wcs = mbstowcs(name);
+        auto name_wcs = mbstowcs(name, CP_UTF8);
         HMODULE handle = nullptr;
 
         // ref:x+1

@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #pragma once
+#include <string>
 
 
 namespace base
@@ -74,7 +75,7 @@ namespace base
         DWORD GetValueCount() const;
 
         // Determines the nth value's name.
-        HRESULT GetValueNameAt(_In_ int index, _Out_ std::wstring* name) const;
+        HRESULT GetValueNameAt(_In_ int index, _Out_ std::string* name) const;
 
         // True while the key is valid.
         bool Valid() const;
@@ -102,12 +103,12 @@ namespace base
 
         // Reads a string into |out_value|. If |name| is null or empty, reads
         // the key's default value, if any.
-        HRESULT ReadValue(_In_opt_ const char* name, _Out_ std::wstring* out_value) const;
+        HRESULT ReadValue(_In_opt_ const char* name, _Out_ std::string* out_value) const;
 
         // Reads a REG_MULTI_SZ registry field into a vector of strings. Clears
         // |values| initially and adds further strings to the list. Returns
         // ERROR_CANTREAD if type is not REG_MULTI_SZ.
-        HRESULT ReadValues(_In_opt_ const char* name, _Out_ std::vector<std::wstring>* values);
+        HRESULT ReadValues(_In_opt_ const char* name, _Out_ std::vector<std::string>* values);
 
         // Reads raw data into |data|. If |name| is null or empty, reads the key's
         // default value, if any.

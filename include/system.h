@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #pragma once
+#include <memory>
 
 
 namespace base

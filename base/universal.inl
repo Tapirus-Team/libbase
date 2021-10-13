@@ -5,23 +5,20 @@
 
 #pragma once
 
-// Global define
+// System Header
 #define NOMINMAX
 #define WIN32_LEAN_AND_MEAN
 #define UMDF_USING_NTSTATUS
-
-// System Header
-#include <third/MINT/MINT.h>
+#include <windows.h>
+#include <windowsx.h>
+#include <winioctl.h>
+#include <ntstatus.h>
 #include <intrin.h>
 #include <strsafe.h>
 
 // C/C++ Header
 #include <cwctype>
 #include <algorithm>
-
-// 3rdParty Header
-
-// Global Var/Fun define
 
 // Self
 #include "include/libbase.h"

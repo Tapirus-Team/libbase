@@ -6,6 +6,7 @@
 
 #include <mutex>
 #include <chrono>
+#include <string>
 
 
 namespace base::memory

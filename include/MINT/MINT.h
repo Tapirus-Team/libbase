@@ -31,12 +31,22 @@ namespace MINT {
 
 // This header file provides access to Win32, plus NTSTATUS values and some access mask values.
 
+#ifdef  MINT_INCLUDE_SYSTEM
 #define UMDF_USING_NTSTATUS
-
 #include <windows.h>
 #include <windowsx.h>
 #include <winioctl.h>
 #include <ntstatus.h>
+#else
+#if (not defined UMDF_USING_NTSTATUS) || (not defined _WINDOWS_) || (not defined _WINIOCTL_)
+#error Please include system header file, like this. \
+#define UMDF_USING_NTSTATUS \
+#include <windows.h>  \
+#include <windowsx.h> \
+#include <winioctl.h> \
+#include <ntstatus.h>
+#endif
+#endif
 
 typedef double DOUBLE;
 typedef GUID *PGUID;

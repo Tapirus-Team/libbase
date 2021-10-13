@@ -171,7 +171,7 @@ namespace base::modules
         _In_ void* new_function
     ) {
 
-        auto name_wcs = mbstowcs(module);
+        auto name_wcs = mbstowcs(module, CP_UTF8);
 
         HMODULE module_handle = LoadLibraryW(name_wcs.c_str());
         if (module_handle == nullptr) {

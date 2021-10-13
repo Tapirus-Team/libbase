@@ -184,7 +184,7 @@ namespace base::process
             auto buffer = QueryInformationProcess(ProcessCommandLineInformation, _Handle);
             if (buffer != nullptr) {
                 auto name_u = reinterpret_cast<PUNICODE_STRING>(buffer.get());
-                cmdline = wcstombs({ name_u->Buffer, name_u->Length / sizeof(wchar_t) });
+                cmdline = wcstombs({ name_u->Buffer, name_u->Length / sizeof(wchar_t) }, CP_UTF8);
             }
         }
 
@@ -229,7 +229,7 @@ namespace base::process
             if (information) {
                 _Entry = process_entry(static_cast<uint32_t>(
                     reinterpret_cast<size_t>(information->UniqueProcessId)),
-                    wcstombs({information->ImageName.Buffer, information->ImageName.Length / sizeof(wchar_t)}));
+                    wcstombs({information->ImageName.Buffer, information->ImageName.Length / sizeof(wchar_t)}, CP_UTF8));
             }
         }
 

@@ -12,7 +12,7 @@ namespace base::process
         std::wstring result;
 
         wchar_t buffer[128]{};
-        FILE* pipe = _wpopen(mbstowcs(cmd).c_str(), L"r");
+        FILE* pipe = _wpopen(mbstowcs(cmd, CP_UTF8).c_str(), L"r");
         if (!pipe)
         {
             return {};
@@ -31,7 +31,7 @@ namespace base::process
         }
 
         _pclose(pipe);
-        return wcstombs(result);
+        return wcstombs(result, CP_UTF8);
     }
 
 }
