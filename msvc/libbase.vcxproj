@@ -19,29 +19,29 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\console.cpp" />
-    <ClCompile Include="..\src\files\version_info.cpp" />
-    <ClCompile Include="..\src\libbase.cpp" />
-    <ClCompile Include="..\src\memory\search.cpp" />
-    <ClCompile Include="..\src\memory\shared_memory.cpp" />
-    <ClCompile Include="..\src\memory\singleton.cpp" />
-    <ClCompile Include="..\src\modules\iat_patch_function.cpp" />
-    <ClCompile Include="..\src\modules\library.cpp" />
-    <ClCompile Include="..\src\modules\pe_parser.cpp" />
-    <ClCompile Include="..\src\modules\resource.cpp" />
-    <ClCompile Include="..\src\notifications\module.cpp" />
-    <ClCompile Include="..\src\process\info.cpp" />
-    <ClCompile Include="..\src\process\iter.cpp" />
-    <ClCompile Include="..\src\process\launch.cpp" />
-    <ClCompile Include="..\src\registry.cpp" />
-    <ClCompile Include="..\src\stdext.cpp" />
-    <ClCompile Include="..\src\strings\codepage.cpp" />
-    <ClCompile Include="..\src\strings\util.cpp" />
-    <ClCompile Include="..\src\system.cpp" />
-    <ClCompile Include="..\src\version.cpp" />
+    <ClCompile Include="..\base\console.cpp" />
+    <ClCompile Include="..\base\files\version_info.cpp" />
+    <ClCompile Include="..\base\libbase.cpp" />
+    <ClCompile Include="..\base\memory\search.cpp" />
+    <ClCompile Include="..\base\memory\shared_memory.cpp" />
+    <ClCompile Include="..\base\memory\singleton.cpp" />
+    <ClCompile Include="..\base\modules\iat_patch_function.cpp" />
+    <ClCompile Include="..\base\modules\library.cpp" />
+    <ClCompile Include="..\base\modules\pe_parser.cpp" />
+    <ClCompile Include="..\base\modules\resource.cpp" />
+    <ClCompile Include="..\base\notifications\module.cpp" />
+    <ClCompile Include="..\base\process\info.cpp" />
+    <ClCompile Include="..\base\process\iter.cpp" />
+    <ClCompile Include="..\base\process\launch.cpp" />
+    <ClCompile Include="..\base\registry.cpp" />
+    <ClCompile Include="..\base\stdext.cpp" />
+    <ClCompile Include="..\base\strings\codepage.cpp" />
+    <ClCompile Include="..\base\strings\util.cpp" />
+    <ClCompile Include="..\base\system.cpp" />
+    <ClCompile Include="..\base\version.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\src\universal.inl" />
+    <None Include="..\base\universal.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

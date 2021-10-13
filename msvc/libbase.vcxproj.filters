@@ -1,94 +1,94 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="src">
+    <Filter Include="base">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd;cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="src\files">
+    <Filter Include="base\files">
       <UniqueIdentifier>{8ae0a7db-e6ea-4aa4-8227-f3bee8487c16}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\memory">
+    <Filter Include="base\memory">
       <UniqueIdentifier>{8a0a381e-4405-4897-a2b9-61612328f59e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\process">
+    <Filter Include="base\process">
       <UniqueIdentifier>{f96f41c4-f1df-466a-a331-9d619f25b10f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\strings">
+    <Filter Include="base\strings">
       <UniqueIdentifier>{cc31c953-c4b1-4b74-9da4-42627920d31c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\notifications">
+    <Filter Include="base\notifications">
       <UniqueIdentifier>{fbc99c13-f843-4ee0-85fb-f849b0c9b759}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\modules">
+    <Filter Include="base\modules">
       <UniqueIdentifier>{ad8b8921-7a80-476c-b085-efb6a53de19c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\console.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\base\console.cpp">
+      <Filter>base</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\libbase.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\base\libbase.cpp">
+      <Filter>base</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\registry.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\base\registry.cpp">
+      <Filter>base</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\stdext.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\base\stdext.cpp">
+      <Filter>base</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\version.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\base\version.cpp">
+      <Filter>base</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\files\version_info.cpp">
-      <Filter>src\files</Filter>
+    <ClCompile Include="..\base\files\version_info.cpp">
+      <Filter>base\files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\memory\singleton.cpp">
-      <Filter>src\memory</Filter>
+    <ClCompile Include="..\base\memory\singleton.cpp">
+      <Filter>base\memory</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\strings\codepage.cpp">
-      <Filter>src\strings</Filter>
+    <ClCompile Include="..\base\strings\codepage.cpp">
+      <Filter>base\strings</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\strings\util.cpp">
-      <Filter>src\strings</Filter>
+    <ClCompile Include="..\base\strings\util.cpp">
+      <Filter>base\strings</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\process\info.cpp">
-      <Filter>src\process</Filter>
+    <ClCompile Include="..\base\process\info.cpp">
+      <Filter>base\process</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\process\launch.cpp">
-      <Filter>src\process</Filter>
+    <ClCompile Include="..\base\process\launch.cpp">
+      <Filter>base\process</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\memory\shared_memory.cpp">
-      <Filter>src\memory</Filter>
+    <ClCompile Include="..\base\memory\shared_memory.cpp">
+      <Filter>base\memory</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\notifications\module.cpp">
-      <Filter>src\notifications</Filter>
+    <ClCompile Include="..\base\notifications\module.cpp">
+      <Filter>base\notifications</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\memory\search.cpp">
-      <Filter>src\memory</Filter>
+    <ClCompile Include="..\base\memory\search.cpp">
+      <Filter>base\memory</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\modules\iat_patch_function.cpp">
-      <Filter>src\modules</Filter>
+    <ClCompile Include="..\base\modules\iat_patch_function.cpp">
+      <Filter>base\modules</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\modules\library.cpp">
-      <Filter>src\modules</Filter>
+    <ClCompile Include="..\base\modules\library.cpp">
+      <Filter>base\modules</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\modules\resource.cpp">
-      <Filter>src\modules</Filter>
+    <ClCompile Include="..\base\modules\resource.cpp">
+      <Filter>base\modules</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\modules\pe_parser.cpp">
-      <Filter>src\modules</Filter>
+    <ClCompile Include="..\base\modules\pe_parser.cpp">
+      <Filter>base\modules</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\process\iter.cpp">
-      <Filter>src\process</Filter>
+    <ClCompile Include="..\base\process\iter.cpp">
+      <Filter>base\process</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\system.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\base\system.cpp">
+      <Filter>base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\src\universal.inl">
-      <Filter>src</Filter>
+    <None Include="..\base\universal.inl">
+      <Filter>base</Filter>
     </None>
   </ItemGroup>
 </Project>

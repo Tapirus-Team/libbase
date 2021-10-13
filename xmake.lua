@@ -16,7 +16,7 @@ add_includedirs(os.scriptdir())
 
 target("libbase")
     set_kind("static")
-    add_files("src/**.cpp")
+    add_files("base/**.cpp")
 
 target("libbase.test")
     set_kind("binary")
