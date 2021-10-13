@@ -79,9 +79,6 @@
     <ClCompile Include="..\base\modules\pe_parser.cpp">
       <Filter>base\modules</Filter>
     </ClCompile>
-    <ClCompile Include="..\base\process\iter.cpp">
-      <Filter>base\process</Filter>
-    </ClCompile>
     <ClCompile Include="..\base\system.cpp">
       <Filter>base</Filter>
     </ClCompile>

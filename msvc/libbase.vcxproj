@@ -31,7 +31,6 @@
     <ClCompile Include="..\base\modules\resource.cpp" />
     <ClCompile Include="..\base\notifications\module.cpp" />
     <ClCompile Include="..\base\process\info.cpp" />
-    <ClCompile Include="..\base\process\iter.cpp" />
     <ClCompile Include="..\base\process\launch.cpp" />
     <ClCompile Include="..\base\registry.cpp" />
     <ClCompile Include="..\base\stdext.cpp" />
