@@ -12,6 +12,11 @@ namespace base::modules
         _In_opt_ uint32_t mode = 0 // LoadLibrary.Flags
     );
 
+    void* dlref(
+        _In_ const char* name,
+        _In_opt_ uint32_t mode = 0 // GetModuleHandleEx.Flags
+    );
+
     int dlclose(
         _In_ void* handle
     );
@@ -25,6 +30,7 @@ namespace base::modules
 namespace base
 {
     using modules::dlopen;
+    using modules::dlref;
     using modules::dlclose;
     using modules::dlsym;
 }

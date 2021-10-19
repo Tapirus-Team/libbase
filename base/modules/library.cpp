@@ -34,6 +34,23 @@ namespace base::modules
         return nullptr;
     }
 
+    void* dlref(
+        _In_ const char* name,
+        _In_opt_ uint32_t mode
+    )
+    {
+        auto name_wcs = mbstowcs(name, CP_UTF8);
+        HMODULE handle = nullptr;
+
+        // ref:x+1
+        if (GetModuleHandleExW(mode, name_wcs.c_str(), &handle))
+        {
+            return handle;
+        }
+
+        return nullptr;
+    }
+
     int dlclose(
         _In_ void* handle
     )
