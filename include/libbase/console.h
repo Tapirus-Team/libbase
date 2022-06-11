@@ -9,7 +9,7 @@ namespace base::console
 {
     void SetConsoleCodePage(
         _In_opt_ uint32_t    CodePage = CP_UTF8,
-        _In_opt_ const char* FontName = u8"Lucida Console"
+        _In_opt_ const char* FontName = (const char*)u8"Lucida Console"
     );
 
     void RedirectIOToConsole(
