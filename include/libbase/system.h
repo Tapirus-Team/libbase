@@ -5,7 +5,6 @@
 #pragma once
 #include <memory>
 
-
 namespace base
 {
     std::shared_ptr<uint8_t> QueryInformationSystem(

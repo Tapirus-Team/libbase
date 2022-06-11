@@ -7,12 +7,11 @@
 
 // System Header
 #define NOMINMAX
-#define WIN32_LEAN_AND_MEAN
-#define UMDF_USING_NTSTATUS
-#include <windows.h>
-#include <windowsx.h>
-#include <winioctl.h>
-#include <ntstatus.h>
+//#define WIN32_LEAN_AND_MEAN
+//#include <Windows.h>
+//#include <windowsx.h>
+//#include <winioctl.h>
+//#include <ntstatus.h>
 #include <intrin.h>
 #include <strsafe.h>
 
@@ -21,4 +20,4 @@
 #include <algorithm>
 
 // Self
-#include "include/libbase.h"
+#include "include/libbase/libbase.h"
