@@ -105,8 +105,8 @@ namespace base
         }
 
         std::vector<uint32_t> parsed;
-        const bool success = ParseVersionNumbers(
-            wildcard_string.substr(0, wildcard_string.length() - 2), &parsed);
+        ParseVersionNumbers(
+	        wildcard_string.substr(0, wildcard_string.length() - 2), &parsed);
         const int comparison = CompareVersionComponents(_Components, parsed);
         // If the version is smaller than the wildcard version's |parsed| vector,
         // then the wildcard has no effect (e.g. comparing 1.2.3 and 1.3.*) and the

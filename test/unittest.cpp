@@ -2,15 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+#ifndef NOMINMAX
 #define NOMINMAX
-#define WIN32_LEAN_AND_MEAN
-#define UMDF_USING_NTSTATUS
-#include <windows.h>
-#include <windowsx.h>
-#include <winioctl.h>
-#include <ntstatus.h>
-#include <include/libbase.h>
+#endif
 
+#include <include/libbase/libbase.h>
 #include <iostream>
 
 int main(int /*argc*/, char* /*argv*/[])
