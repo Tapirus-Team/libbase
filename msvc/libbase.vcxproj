@@ -33,6 +33,7 @@
     <ClCompile Include="..\base\process\info.cpp" />
     <ClCompile Include="..\base\process\launch.cpp" />
     <ClCompile Include="..\base\registry.cpp" />
+    <ClCompile Include="..\base\security.cpp" />
     <ClCompile Include="..\base\stdext.cpp" />
     <ClCompile Include="..\base\strings\codepage.cpp" />
     <ClCompile Include="..\base\strings\util.cpp" />

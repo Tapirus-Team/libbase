@@ -89,44 +89,40 @@ namespace base::process
         return !!elevation.TokenIsElevated;
     }
 
-    bool SetProcessPrivilege(_In_ HANDLE token, _In_ LPCWSTR privilege, _In_ BOOL enable)
+    bool SetProcessPrivilege(
+        _In_  HANDLE process,    // access token handle
+        _In_  LPCSTR privilege,  // name of privilege to enable/disable
+        _In_  BOOL   enable      // to enable or disable privilege
+    )
     {
-        TOKEN_PRIVILEGES tp = { 0 };
-        LUID luid = { 0 };
+        bool result  = false;
+        HANDLE token = nullptr;
 
-        if (!::LookupPrivilegeValueW(
-            nullptr,        // lookup privilege on local system
-            privilege,      // privilege to lookup 
-            &luid))         // receives LUID of privilege
+        if (::OpenProcessToken(process, TOKEN_QUERY | TOKEN_ADJUST_PRIVILEGES, &token))
         {
-            return false;
+            result = security::SetTokenPrivilege(token, privilege, enable);
+
+            ::CloseHandle(token);
         }
 
-        tp.PrivilegeCount = 1;
-        tp.Privileges[0].Luid = luid;
-        if (enable)
-            tp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
-        else
-            tp.Privileges[0].Attributes = 0;
+        return result;
+    }
 
-        // Enable the privilege or disable all privileges.
-        if (!::AdjustTokenPrivileges(
-            token,
-            FALSE,
-            &tp,
-            sizeof(TOKEN_PRIVILEGES),
-            nullptr,
-            nullptr))
+    HANDLE GetProcessLinkedToken(
+        _In_  HANDLE  process
+    )
+    {
+        HANDLE token  = nullptr;
+        HANDLE linked = nullptr;
+
+        if (::OpenProcessToken(process, TOKEN_ALL_ACCESS, &token))
         {
-            return false;
+            linked = security::GetTokenLinkedToken(token);
+
+            ::CloseHandle(token);
         }
 
-        if (GetLastError() == ERROR_NOT_ALL_ASSIGNED)
-        {
-            return false;
-        }
-
-        return true;
+        return linked;
     }
 
     std::shared_ptr<uint8_t> QueryInformationProcess(

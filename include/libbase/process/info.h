@@ -29,9 +29,13 @@ namespace base::process
     );
 
     bool SetProcessPrivilege(
-        _In_ HANDLE  token,      // access token handle
-        _In_ LPCWSTR privilege,  // name of privilege to enable/disable
-        _In_ BOOL    enable      // to enable or disable privilege
+        _In_  HANDLE  process,    // target process handle
+        _In_  LPCSTR  privilege,  // name of privilege to enable/disable
+        _In_  BOOL    enable      // to enable or disable privilege
+    );
+
+    HANDLE GetProcessLinkedToken(
+        _In_  HANDLE  process
     );
 
     std::shared_ptr<uint8_t> QueryInformationProcess(

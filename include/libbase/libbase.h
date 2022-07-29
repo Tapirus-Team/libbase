@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <Veil/Veil.h>
+#include "../../third/Veil/Veil.h"
 
 EXTERN_C IMAGE_DOS_HEADER __ImageBase;
 #define HINST_THISCOMPONENT ((HINSTANCE)&__ImageBase)
@@ -14,6 +14,7 @@ EXTERN_C IMAGE_DOS_HEADER __ImageBase;
 #include "version.h"
 #include "registry.h"
 #include "system.h"
+#include "security.h"
 #include "strings/util.h"
 #include "strings/codepage.h"
 #include "memory/search.h"
