@@ -1,19 +1,21 @@
 -- xmake
-
-set_xmakever("2.5.4")
+set_xmakever("2.7.1")
 add_rules("plugin.vsxmake.autoupdate")
 
--- global
-
-set_project("libbase")
+-- set modes
 add_rules("mode.debug", "mode.release")
+
+-- set languages and warning
+set_languages("c17", "cxx17")
+set_warnings ("allextra", "error")
+
+-- global config
+set_project("libbase")
 set_runtimes("MD")
-set_warnings("allextra", "error")
-set_languages("c11", "cxx17")
+add_links("advapi32", "wtsapi32")
 add_includedirs(os.scriptdir())
 
--- target
-
+-- targets
 target("libbase")
     set_kind("static")
     add_files("base/**.cpp")
