@@ -10,18 +10,18 @@ set_languages("c17", "cxx17")
 set_warnings ("allextra", "error")
 
 -- global config
-set_project("libbase")
-set_runtimes("MD")
-add_links("advapi32", "wtsapi32")
-add_includedirs(os.scriptdir())
 
 -- targets
 target("libbase")
+    add_syslinks("advapi32", "wtsapi32")
     set_kind("static")
+    set_runtimes("MD")
+    add_includedirs(os.scriptdir(), { public = true })
     add_files("base/**.cpp")
 
 target("libbase.test")
     set_kind("binary")
+    set_runtimes("MD")
     add_deps("libbase")
     add_files("test/unittest.cpp")
 
