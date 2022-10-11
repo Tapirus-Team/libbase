@@ -107,7 +107,10 @@ namespace base
 
     RegKey::RegKey(_Inout_ RegKey&& other) noexcept
     {
-        std::swap(*this, other);
+        Close();
+
+        std::swap(_Key, other._Key);
+        std::swap(_Wow64Access, other._Wow64Access);
     }
 
     RegKey::~RegKey()

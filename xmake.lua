@@ -4,6 +4,12 @@ add_rules("plugin.vsxmake.autoupdate")
 
 -- set modes
 add_rules("mode.debug", "mode.release")
+if is_mode("debug") then
+    add_defines("_DEBUG")
+    set_runtimes("MDd")
+else
+    set_runtimes("MD")
+end
 
 -- set languages and warning
 set_languages("c17", "cxx17")
@@ -15,13 +21,11 @@ set_warnings ("allextra", "error")
 target("libbase")
     add_syslinks("advapi32", "wtsapi32")
     set_kind("static")
-    set_runtimes("MD")
     add_includedirs(os.scriptdir(), { public = true })
     add_files("base/**.cpp")
 
 target("libbase.test")
     set_kind("binary")
-    set_runtimes("MD")
     add_deps("libbase")
     add_files("test/unittest.cpp")
 
