@@ -8,7 +8,7 @@ if is_mode("debug") then
     add_defines("_DEBUG")
     set_runtimes("MDd")
 else
-    set_runtimes("MD")
+    set_runtimes("MT")
 end
 
 -- set languages and warning
